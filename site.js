@@ -85,9 +85,10 @@
     var im = new Image(); im.src = 'patterns/' + p[0] + '.png'; im.alt = ''; art.appendChild(im); imgs.push(im);
     var b = document.createElement('button'); b.className = 'tile'; b.type = 'button';
     b.setAttribute('aria-label', p[1]); b.setAttribute('aria-pressed', 'false');
-    var a = (200 - (i * 220) / (P.length - 1)) * Math.PI / 180; // arc over the top of the cup
-    b.style.left = (50 + 47 * Math.cos(a) - 8.5) + '%';
-    b.style.top = (50 - 47 * Math.sin(a) - 8.5 + 8) + '%';
+    // arc over the top of the cup; radius 42 keeps the rotated, raised tiles inside the stage (tile is 16% wide)
+    var a = (200 - (i * 220) / (P.length - 1)) * Math.PI / 180;
+    b.style.left = (50 + 42 * Math.cos(a) - 8) + '%';
+    b.style.top = (50 - 42 * Math.sin(a) - 8 + 8) + '%';
     b.style.setProperty('--r', ((i - 3) * 7) + 'deg');
     var ti = new Image(); ti.src = 'patterns/' + p[0] + '.png'; ti.alt = ''; b.appendChild(ti);
     b.addEventListener('click', function () { user = true; clearInterval(timer); show(i); });
