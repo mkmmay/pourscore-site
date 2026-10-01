@@ -37,8 +37,8 @@ def row_img(n, name, sub, tag, green):
 
 
 PH_LIST = phone('<span class="mono">Patterns</span><h4>Pick a pour</h4>' + ''.join(
-    row_img(*r) for r in [('heart', 'Heart', '3 chapters', 'Start here', 1), ('rosetta', 'Rosetta', 'Wiggle and pull', 'Tier 2', 0),
-                          ('tulip', 'Tulip', 'Stacked petals', 'Tier 3', 0), ('swan', 'Swan', 'The showpiece', 'Tier 5', 0)]
+    row_img(*r) for r in [('heart', 'Heart', '3 chapters', 'Start here', 1), ('tulip', 'Tulip', 'Stacked petals', 'Tier 2', 0),
+                          ('rosetta', 'Rosetta', 'Wiggle and pull', 'Tier 3', 0), ('swan', 'Swan', 'The showpiece', 'Tier 5', 0)]
 ) + '<div class="btn-m">Start guided pour</div>')
 
 PH_POUR = phone('''<span class="mono">Heart &middot; chapter 2 of 3</span><h4>Pull through</h4>
@@ -63,7 +63,7 @@ PH_MILK = phone('<span class="mono">Chapter 0</span><h4>Milk first</h4>' + ''.jo
 _rnd = random.Random(7)
 _heat = ''.join(f'<i class="{_rnd.choice(["", "l1", "l2", "l3", "l3"])}" style="--i:{n}"></i>' for n in range(56))
 PH_PROG = phone(f'''<span class="mono">Progress</span><h4>Confident</h4>
-<div class="bar"><i style="width:72%"></i></div><div class="mono" style="margin-top:5px">72% to Cafe Ready</div>
+<div class="bar"><i style="width:72%"></i></div><div class="mono" style="margin-top:5px">72% to Café Ready</div>
 <div class="heat">{_heat}</div>
 <div class="row"><span><b>9 day streak</b><i>Poured today</i></span><span class="tag g tag-r">Best</span></div>
 <div class="row"><span><b>41 pours logged</b><i>Private by default</i></span></div>''')
