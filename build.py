@@ -4,6 +4,7 @@ The legal pages come straight from Legal Docs/extracted/*.md, so after a doc
 changes, rerun this and push:  python3 build.py
 Needs the `markdown` package (pip3 install markdown).
 """
+import hashlib
 import re
 from pathlib import Path
 
@@ -16,14 +17,19 @@ SUPPORT = 'support@pourscoreapp.com'
 LEGAL_EMAIL = 'legal@pourscoreapp.com'
 
 
+def v(name):
+    """Asset URL with a content stamp, so browsers fetch the new file after every change."""
+    return f'{name}?v={hashlib.md5((HERE / name).read_bytes()).hexdigest()[:8]}'
+
+
 def page(title, desc, body, current, root, wide=False):
     nav = ''.join(
         f'<a href="{root}{href}"{" aria-current=page" if key == current else ""}>{label}</a>'
         for key, href, label in [('features', 'features/', 'Features'), ('support', '#support', 'Support'), ('privacy', 'privacy/', 'Privacy'), ('terms', 'terms/', 'Terms')]
     )
     stores = f'<div class="hstores">{header_stores(root)}</div>' if wide else ''
-    extra = f'<link rel="stylesheet" href="{root}landing.css">\n<script>document.documentElement.className="js"</script>' if wide else ''
-    tail = f'<script src="{root}site.js" defer></script>' if wide else ''
+    extra = f'<link rel="stylesheet" href="{root}{v("landing.css")}">\n<script>document.documentElement.className="js"</script>' if wide else ''
+    tail = f'<script src="{root}{v("site.js")}" defer></script>' if wide else ''
     open_, close_ = ('', '') if wide else ('<div class="wrap">', '</div>')
     return f'''<!doctype html>
 <html lang="en-GB">
@@ -33,7 +39,7 @@ def page(title, desc, body, current, root, wide=False):
 <title>{title}</title>
 <meta name="description" content="{desc}">
 <link rel="icon" href="{root}favicon.png">
-<link rel="stylesheet" href="{root}style.css">
+<link rel="stylesheet" href="{root}{v("style.css")}">
 {extra}
 </head>
 <body{' class="wide"' if wide else ''}>

@@ -61,7 +61,7 @@ PH_MILK = phone('<span class="mono">Chapter 0</span><h4>Milk first</h4>' + ''.jo
                        ('3', 'Swirl', 'Keep it moving until you pour', 0), ('4', 'Fix it', 'Beige, bubbly or thin?', 0)]))
 
 _rnd = random.Random(7)
-_heat = ''.join(f'<i class="{_rnd.choice(["", "l1", "l2", "l3", "l3"])}"></i>' for _ in range(56))
+_heat = ''.join(f'<i class="{_rnd.choice(["", "l1", "l2", "l3", "l3"])}" style="--i:{n}"></i>' for n in range(56))
 PH_PROG = phone(f'''<span class="mono">Progress</span><h4>Confident</h4>
 <div class="bar"><i style="width:72%"></i></div><div class="mono" style="margin-top:5px">72% to Cafe Ready</div>
 <div class="heat">{_heat}</div>

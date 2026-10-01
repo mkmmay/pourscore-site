@@ -34,6 +34,40 @@
   }
   if (groups.length) { addEventListener('scroll', light, { passive: true }); addEventListener('resize', light); light(); }
 
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Phone mockups: the streak grid fills and progress bars sweep in each time a phone scrolls into view.
+  if ('IntersectionObserver' in window) {
+    var po = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { e.target.classList.toggle('go', e.isIntersecting); });
+    }, { threshold: 0.35 });
+    document.querySelectorAll('.phone').forEach(function (p) { po.observe(p); });
+  } else document.querySelectorAll('.phone').forEach(function (p) { p.classList.add('go'); });
+
+  // Tiers: the highlight climbs from Beginner to Barista (passed tiers keep a faint edge), holds, then repeats.
+  var ladder = document.getElementById('ladder');
+  if (ladder) {
+    var rungs = ladder.querySelectorAll('.rung'), tcap = document.getElementById('tiercap'), step = 0, tick = null;
+    var setTier = function (i) {
+      rungs.forEach(function (r, j) { r.classList.toggle('on', j === i); r.classList.toggle('done', j < i); });
+      if (tcap) tcap.innerHTML = '<span class="mono">' + rungs[i].querySelector('.mono').textContent + ' &middot; ' +
+        rungs[i].querySelector('b').textContent + '</span>' + rungs[i].querySelector('p').textContent;
+    };
+    var climb = function () {
+      step = (step + 1) % (rungs.length + 2); // the two extra steps hold on Barista
+      if (step < rungs.length) setTier(step);
+      tick = setTimeout(climb, 1000);
+    };
+    if (reduce || !('IntersectionObserver' in window)) setTier(rungs.length - 1);
+    else {
+      setTier(0);
+      new IntersectionObserver(function (es) {
+        if (es[0].isIntersecting) { if (!tick) tick = setTimeout(climb, 1300); }
+        else { clearTimeout(tick); tick = null; }
+      }, { threshold: 0.3 }).observe(ladder);
+    }
+  }
+
   var stage = document.getElementById('stage');
   if (!stage) return;
   var P = [
@@ -70,6 +104,6 @@
     hero.style.setProperty('--glow', 'rgba(' + P[i][3] + ',.24)');
   }
   show(0);
-  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+  if (!reduce)
     timer = setInterval(function () { if (!document.hidden) show((cur + 1) % P.length); }, 4200);
 })();
