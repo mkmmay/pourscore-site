@@ -88,7 +88,8 @@ SCRIPT = """
   var scheme = 'pourscore://auth/confirmed';
   var asked = new URLSearchParams(search).get('app') || '';
   if (/^exps?:\/\/[a-z0-9-]+\.exp\.direct\/--\/auth\/confirmed$/i.test(asked)) scheme = asked;
-  var link = scheme + (hash ? '#' + hash : '');
+  // Expo Go can drop a #fragment from the deep link, so the dev bridge carries the sign-in in the query instead.
+  var link = scheme + (hash ? (scheme.indexOf('pourscore:') === 0 ? '#' : '?') + hash : '');
   function show(id) {
     ['opening', 'done', 'problem'].forEach(function (s) { document.getElementById(s).hidden = s !== id; });
   }
