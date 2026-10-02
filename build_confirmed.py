@@ -87,7 +87,7 @@ SCRIPT = """
   // its own exp:// address (only our dev tunnel shape is accepted). Delete this before public launch.
   var scheme = 'pourscore://auth/confirmed';
   var asked = new URLSearchParams(search).get('app') || '';
-  if (/^exp:\/\/[a-z0-9-]+\.exp\.direct\/--\/auth\/confirmed$/i.test(asked)) scheme = asked;
+  if (/^exps?:\/\/[a-z0-9-]+\.exp\.direct\/--\/auth\/confirmed$/i.test(asked)) scheme = asked;
   var link = scheme + (hash ? '#' + hash : '');
   function show(id) {
     ['opening', 'done', 'problem'].forEach(function (s) { document.getElementById(s).hidden = s !== id; });
