@@ -23,7 +23,7 @@ a { color: var(--accent); }
 header { border-bottom: 1px solid var(--line); }
 header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; flex-wrap: wrap; }
 .brand { color: var(--ink); font-weight: 600; font-size: 19px; text-decoration: none; display: flex; align-items: center; gap: 10px; }
-.brand img { width: 28px; height: 28px; border-radius: 50%; }
+.brand img { width: 28px; height: 28px; border-radius: 22%; }
 nav { display: flex; gap: 18px; font: 500 12px/1 'IBM Plex Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
 nav a { color: var(--ink2); text-decoration: none; }
 nav a:hover, nav a[aria-current] { color: var(--accent); }

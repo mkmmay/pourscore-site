@@ -39,16 +39,16 @@ body.wide main { flex: 1; display: flex; flex-direction: column; }
 .cf .kicker { margin: 0 0 12px; }
 .cf .hint { font-size: 14px; color: var(--muted); max-width: 340px; }
 .ok-tile { position: relative; width: 88px; height: 88px; margin: 0 auto 24px; }
-.ok-tile .t { width: 100%; height: 100%; border-radius: 22%; background: var(--milk); display: grid; place-items: center; box-shadow: 0 14px 28px rgba(0,0,0,.45); transform: rotate(-6deg); }
-.ok-tile img { width: 74%; filter: invert(1) brightness(.18) sepia(.5); }
-.ok-tile .b { position: absolute; right: -9px; bottom: -9px; width: 32px; height: 32px; border-radius: 50%; background: var(--accent); border: 3px solid var(--bg); display: grid; place-items: center; }
+.ok-tile .t { width: 100%; height: 100%; border-radius: 22%; background: var(--accent); display: grid; place-items: center; box-shadow: 0 14px 28px rgba(0,0,0,.45); transform: rotate(-6deg); }
+.ok-tile img { width: 76%; filter: brightness(0); }
+.ok-tile .b { position: absolute; right: -9px; bottom: -9px; width: 32px; height: 32px; border-radius: 50%; background: var(--milk); border: 3px solid var(--bg); display: grid; place-items: center; }
 .ok-tile .b svg { width: 16px; height: 16px; stroke: var(--bg); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .ring { position: relative; width: 76px; height: 76px; margin: 0 0 22px; display: grid; place-items: center; }
 .ring svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; transform: rotate(-90deg); }
 .ring circle { fill: none; stroke-width: 4; }
 .ring .tr { stroke: rgba(244,236,228,.12); }
 .ring .pr { stroke: var(--accent); stroke-linecap: round; stroke-dasharray: 176; stroke-dashoffset: 176; animation: fill 2.2s linear forwards; }
-.ring img { position: relative; display: block; width: 38px; height: 38px; margin: 0; padding: 0; border-radius: 50%; }
+.ring img { position: relative; display: block; width: 38px; height: 38px; margin: 0; padding: 0; border-radius: 22%; }
 @keyframes fill { to { stroke-dashoffset: 0; } }
 .cf-btn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 54px; margin: 12px 0 14px; padding: 0 24px; border-radius: 999px; background: var(--accent); color: var(--bg); font: 600 17px/1 'Archivo', sans-serif; text-decoration: none; transition: transform .2s, background .2s; }
 .cf-btn:hover { background: #F07A50; transform: translateY(-2px); }
@@ -129,7 +129,7 @@ page = f'''<!doctype html>
 <p>One moment, taking you back to the app.</p>
 </section>
 <section id="done">
-<div class="ok-tile"><div class="t"><img src="../patterns/stacked_heart.png" alt=""></div><div class="b">{CHECK}</div></div>
+<div class="ok-tile"><div class="t"><img src="../patterns/rosetta.png" alt=""></div><div class="b">{CHECK}</div></div>
 <h1>Your email is <em>confirmed</em></h1>
 <p>Open Pour Score to carry on setting up your account.</p>
 <a class="cf-btn" id="open" href="pourscore://auth/confirmed">Open Pour Score</a>
@@ -137,7 +137,7 @@ page = f'''<!doctype html>
 <a class="cf-help" href="mailto:{SUPPORT}"><span class="ic">{MAIL}</span><span><b>Need a hand?</b><span class="addr">{SUPPORT}</span></span></a>
 </section>
 <section id="problem" hidden>
-<div class="ok-tile"><div class="t"><img src="../patterns/stacked_heart.png" alt=""></div><div class="b">{WARN}</div></div>
+<div class="ok-tile"><div class="t"><img src="../patterns/rosetta.png" alt=""></div><div class="b">{WARN}</div></div>
 <h1>That link has <em>expired</em></h1>
 <p>Open the Pour Score app and sign in. We will offer to send you a new confirmation email.</p>
 <a class="cf-help" href="mailto:{SUPPORT}"><span class="ic">{MAIL}</span><span><b>Need a hand?</b><span class="addr">{SUPPORT}</span></span></a>
