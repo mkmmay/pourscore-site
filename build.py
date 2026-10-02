@@ -15,6 +15,12 @@ HERE = Path(__file__).parent
 LEGAL = HERE.parent / 'Legal Docs' / 'extracted'
 SUPPORT = 'support@pourscoreapp.com'
 LEGAL_EMAIL = 'legal@pourscoreapp.com'
+# The one postal address shown on the site and in both legal pages ({{ADDRESS}}). Use a service address
+# that accepts legal and recorded mail, not a home address. Keep it identical to the ICO register entry and
+# to the POSTAL_ADDRESS secret on the waitlist function.
+ADDRESS = '168a Battersea Park Road, London, SW11 4ND, United Kingdom'
+if not ADDRESS:
+    raise SystemExit('Set ADDRESS in build.py before building.')
 
 
 def v(name):
@@ -64,6 +70,7 @@ def page(title, desc, body, current, root, wide=False):
 def legal(md_name, title, slug):
     text = (LEGAL / md_name).read_text()
     text = re.sub(r'^# .*\n', '', text, count=1)  # the page supplies its own <h1>
+    text = text.replace('{{ADDRESS}}', ADDRESS)
     html = markdown.markdown(text, extensions=['tables'])
     html = html.replace('<table>', '<div class="table"><table>').replace('</table>', '</table></div>')
     html = re.sub(r'([\w.+-]+@pourscoreapp\.com)', r'<a href="mailto:\1">\1</a>', html)
@@ -93,7 +100,7 @@ home = fill(read('home.html')) + f'''
 <div class="scard rv"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13M10 21v-6h4v6"/></svg></span>
 <h3>Who runs Pour Score</h3>
 <address>Marlon Kazim May, trading as Pour Score (sole trader)<br>
-168a Battersea Park Road, London, SW11 4ND, United Kingdom<br>
+{ADDRESS}<br>
 <a href="mailto:{LEGAL_EMAIL}">{LEGAL_EMAIL}</a></address></div>
 <div class="scard del rv">
 <div><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/></svg></span>

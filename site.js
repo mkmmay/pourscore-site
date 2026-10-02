@@ -108,3 +108,38 @@
   if (!reduce)
     timer = setInterval(function () { if (!document.hidden) show((cur + 1) % P.length); }, 4200);
 })();
+
+// Early access form: posts to the waitlist edge function; ?s= shows the result of the email links.
+(function () {
+  var f = document.getElementById('early-access');
+  if (!f) return;
+  var API = 'https://brgzrpfjavmqajmaqdjc.supabase.co/functions/v1/waitlist';
+  var msg = f.querySelector('.ea-msg');
+  var say = function (t) { msg.textContent = t; };
+  var status = { confirmed: 'You are on the list. We will email you when early access opens.',
+    unsubscribed: 'You have been removed from the list.',
+    invalid: 'That link has expired or was already used. Sign up again below.' };
+  var s = new URLSearchParams(location.search).get('s');
+  if (status[s]) say(status[s]);
+  if (s === 'confirmed') {
+    f.classList.add('done');
+    f.querySelector('h3').textContent = 'You are on the list';
+    say('Thanks for signing up. We will email you as soon as early access opens, and again when Pour Score is live.');
+  }
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var d = new FormData(f), btn = f.querySelector('button');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test((d.get('email') || '').trim())) return say('Please enter a valid email address.');
+    if (!f.consent.checked) return say('Please tick the box to join the list.');
+    btn.disabled = true; say('Sending...');
+    fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: d.get('email'), consent: true, website: d.get('website') }) })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (r) {
+        if (r.ok) { f.reset(); say('Nearly done. We have sent you an email. Click the link in it to confirm and you are on the list.'); }
+        else say(r.j.error || 'Something went wrong. Please try again.');
+      })
+      .catch(function () { say('Something went wrong. Please try again.'); })
+      .then(function () { btn.disabled = false; });
+  });
+})();
