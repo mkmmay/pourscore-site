@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Email confirmed | Pour Score</title>
+<meta name="description" content="Your email address is confirmed. Open the Pour Score app and sign in.">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header><div class="wrap">
+<a class="brand" href="../"><img src="../favicon.png" alt="">Pour Score</a>
+</div></header>
+<main><div class="wrap">
+<p class="kicker">Pour Score</p>
+<h1>Your email is confirmed</h1>
+<p class="lead">Thanks for confirming. Open the <strong>Pour Score</strong> app on your phone and sign in with your email and password.</p>
+<p>If you didn't create a Pour Score account, you can ignore this page. Questions? Email <a href="mailto:support@pourscoreapp.com">support@pourscoreapp.com</a>.</p>
+</div></main>
+<footer><div class="wrap">
+<span>&copy; 2026 Pour Score. Marlon Kazim May, trading as Pour Score.</span>
+<span><a href="../#support">Support</a> &middot; <a href="../privacy/">Privacy</a> &middot; <a href="../terms/">Terms</a></span>
+</div></footer>
+<script>
+// The confirmation link can carry sign-in tokens after the #. Clear them from the address bar.
+if (location.hash) history.replaceState(null, '', location.pathname);
+</script>
+</body>
+</html>
