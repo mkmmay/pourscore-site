@@ -27,12 +27,12 @@ body.wide main { flex: 1; display: flex; flex-direction: column; }
 .ok-tile img { width: 74%; filter: invert(1) brightness(.18) sepia(.5); }
 .ok-tile .b { position: absolute; right: -9px; bottom: -9px; width: 32px; height: 32px; border-radius: 50%; background: var(--accent); border: 3px solid var(--bg); display: grid; place-items: center; }
 .ok-tile .b svg { width: 16px; height: 16px; stroke: var(--bg); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.ring { position: relative; width: 76px; height: 76px; margin: 0 0 22px; }
-.ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring { position: relative; width: 76px; height: 76px; margin: 0 0 22px; display: grid; place-items: center; }
+.ring svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; transform: rotate(-90deg); }
 .ring circle { fill: none; stroke-width: 4; }
 .ring .tr { stroke: rgba(244,236,228,.12); }
 .ring .pr { stroke: var(--accent); stroke-linecap: round; stroke-dasharray: 176; stroke-dashoffset: 176; animation: fill 2.2s linear forwards; }
-.ring img { position: absolute; inset: 19px; width: 38px; height: 38px; border-radius: 50%; }
+.ring img { position: relative; display: block; width: 38px; height: 38px; margin: 0; padding: 0; border-radius: 50%; }
 @keyframes fill { to { stroke-dashoffset: 0; } }
 .cf-btn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 54px; margin: 12px 0 14px; padding: 0 24px; border-radius: 999px; background: var(--accent); color: var(--bg); font: 600 17px/1 'Archivo', sans-serif; text-decoration: none; transition: transform .2s, background .2s; }
 .cf-btn:hover { background: #F07A50; transform: translateY(-2px); }
@@ -53,6 +53,7 @@ body.wide main { flex: 1; display: flex; flex-direction: column; }
   .cf .hint { font-size: 13px; }
   .cf-help { margin-top: 10px; padding: 10px 14px; }
   .ring { width: 64px; height: 64px; margin-bottom: 14px; }
+  .ring img { width: 32px; height: 32px; }
   footer { padding: 14px 0 18px; font-size: 13px; }
   footer .wrap { gap: 6px; }
 }
@@ -97,9 +98,15 @@ body.wide main { flex: 1; display: flex; flex-direction: column; }
 <script>
 (function () {
   var hash = location.hash.slice(1);
+  var search = location.search; // read before the address bar is cleared below
   if (hash) history.replaceState(null, '', location.pathname); // keep the sign-in out of the address bar
   var p = new URLSearchParams(hash);
-  var link = 'pourscore://auth/confirmed' + (hash ? '#' + hash : '');
+  // Where to hand the sign-in. Real builds answer pourscore://. While testing in Expo Go the app asks for
+  // its own exp:// address (only our dev tunnel shape is accepted). Delete this before public launch.
+  var scheme = 'pourscore://auth/confirmed';
+  var asked = new URLSearchParams(search).get('app') || '';
+  if (/^exp:\/\/[a-z0-9-]+\.exp\.direct\/--\/auth\/confirmed$/i.test(asked)) scheme = asked;
+  var link = scheme + (hash ? '#' + hash : '');
   function show(id) {
     ['opening', 'done', 'problem'].forEach(function (s) { document.getElementById(s).hidden = s !== id; });
   }
