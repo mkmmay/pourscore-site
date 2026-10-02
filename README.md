@@ -11,3 +11,9 @@ After any change:
 
     python3 build.py   # needs: pip3 install markdown
     git add -A && git commit -m "..." && git push
+
+The email-confirmed page (`/confirmed/`) has its own build script so it can be rebuilt on its own:
+
+    python3 build_confirmed.py
+
+It hands people back into the app (`pourscore://auth/confirmed`) after the sign-up email link.

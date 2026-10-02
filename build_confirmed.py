@@ -1,15 +1,31 @@
-<!doctype html>
-<html lang="en-GB">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
-<title>Email confirmed | Pour Score</title>
-<meta name="description" content="Your email address is confirmed. Open the Pour Score app to carry on.">
-<link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../style.css?v=f9518292">
-<link rel="stylesheet" href="../landing.css?v=d806bbc9">
-<style>
+"""Builds confirmed/index.html: where the sign-up email link lands, then hands people back into the app.
+
+Separate from build.py on purpose, so it can be rebuilt without touching the other pages:
+    python3 build_confirmed.py
+
+Flow (see Latte Learn app, src/context/AuthContext.tsx):
+  email link -> Supabase confirms the account -> this page, with the sign-in in the address after the #
+  -> after ~2 s the page opens pourscore://auth/confirmed#<same sign-in> -> the app signs in and starts onboarding.
+If the app does not open (Expo Go, no app installed, a laptop), after ~4.5 s the page shows an Open button and plain steps.
+"""
+import hashlib
+from pathlib import Path
+
+from parts import header_stores
+
+HERE = Path(__file__).parent
+SUPPORT = 'support@pourscoreapp.com'
+LEGAL_EMAIL = 'legal@pourscoreapp.com'
+CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
+WARN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v5M12 16.5v.5"/></svg>'
+MAIL = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v12H3zM3 7l9 7 9-7"/></svg>'
+
+
+def v(name):
+    return f'{name}?v={hashlib.md5((HERE / name).read_bytes()).hexdigest()[:8]}'
+
+
+CSS = """
 /* Page-only styles. The frame (header, footer, tokens) comes from style.css and landing.css. */
 body.wide { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
 body.wide main { flex: 1; display: flex; flex-direction: column; }
@@ -58,43 +74,9 @@ body.wide main { flex: 1; display: flex; flex-direction: column; }
 }
 @media (max-width: 600px) { footer a { display: inline-block; padding: 14px 6px; margin: -14px -6px; } }
 @media (prefers-reduced-motion: reduce) { .ring .pr { animation: none; stroke-dashoffset: 0; } .cf-btn { transition: none; } }
-</style>
-</head>
-<body class="wide">
-<header><div class="wrap">
-<a class="brand" href="../"><img src="../favicon.png" alt="">Pour Score</a>
-<nav><a href="../features/">Features</a><a href="../#support">Support</a><a href="../privacy/">Privacy</a><a href="../terms/">Terms</a></nav>
-<div class="hstores"><a class="hs" href="../#start" aria-label="App Store"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2.1-3.6-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.15-2.9.9-3.7.9s-1.9-.85-3.2-.8c-1.6 0-3.1.95-4 2.4-1.7 3-.45 7.3 1.2 9.7.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8s1.9.8 3.2.8 2.1-1.2 2.9-2.3c.9-1.3 1.3-2.6 1.3-2.7 0 0-2.4-.9-2.4-3.7zM14.1 5.5c.65-.8 1.1-1.9 1-3-1 0-2.1.65-2.8 1.4-.6.7-1.15 1.8-1 2.9 1.1.1 2.2-.55 2.8-1.3z"/></svg><span>App Store</span></a><a class="hs" href="../#start" aria-label="Google Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20.5v-17c0-.59.34-1.11.84-1.35L13.69 12l-9.85 9.85c-.5-.25-.84-.76-.84-1.35zm13.81-5.38L6.05 21.34l8.49-8.49 2.27 2.27zm3.35-4.31c.34.27.59.69.59 1.19s-.22.9-.57 1.18l-2.29 1.32-2.5-2.5 2.5-2.5 2.27 1.31zM6.05 2.66l10.76 6.22-2.27 2.27-8.49-8.49z"/></svg><span>Google Play</span></a></div>
-</div></header>
-<main>
-<div class="cf" aria-live="polite">
-<section id="opening" hidden>
-<div class="ring"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="tr" cx="32" cy="32" r="28"/><circle class="pr" cx="32" cy="32" r="28"/></svg><img src="../favicon.png" alt=""></div>
-<p class="kicker">Email confirmed</p>
-<h1>Opening Pour&nbsp;Score</h1>
-<p>One moment, taking you back to the app.</p>
-</section>
-<section id="done">
-<div class="ok-tile"><div class="t"><img src="../patterns/stacked_heart.png" alt=""></div><div class="b"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div>
-<h1>Your email is <em>confirmed</em></h1>
-<p>Open Pour Score to carry on setting up your account.</p>
-<a class="cf-btn" id="open" href="pourscore://auth/confirmed">Open Pour Score</a>
-<p class="hint">Nothing happened? Open the app yourself and sign in with your email and password.</p>
-<a class="cf-help" href="mailto:support@pourscoreapp.com"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v12H3zM3 7l9 7 9-7"/></svg></span><span><b>Need a hand?</b><span class="addr">support@pourscoreapp.com</span></span></a>
-</section>
-<section id="problem" hidden>
-<div class="ok-tile"><div class="t"><img src="../patterns/stacked_heart.png" alt=""></div><div class="b"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v5M12 16.5v.5"/></svg></div></div>
-<h1>That link has <em>expired</em></h1>
-<p>Open the Pour Score app and sign in. We will offer to send you a new confirmation email.</p>
-<a class="cf-help" href="mailto:support@pourscoreapp.com"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v12H3zM3 7l9 7 9-7"/></svg></span><span><b>Need a hand?</b><span class="addr">support@pourscoreapp.com</span></span></a>
-</section>
-</div>
-</main>
-<footer><div class="wrap">
-<span>&copy; 2026 Pour Score. Marlon Kazim May, trading as Pour Score.</span>
-<span><a href="../features/">Features</a> &middot; <a href="../#support">Support</a> &middot; <a href="../privacy/">Privacy</a> &middot; <a href="../terms/">Terms</a></span>
-</div></footer>
-<script>
+"""
+
+SCRIPT = """
 (function () {
   var hash = location.hash.slice(1);
   if (hash) history.replaceState(null, '', location.pathname); // keep the sign-in out of the address bar
@@ -110,6 +92,60 @@ body.wide main { flex: 1; display: flex; flex-direction: column; }
   setTimeout(function () { location.href = link; }, 2200);
   setTimeout(function () { show('done'); }, 4500);
 })();
-</script>
+"""
+
+page = f'''<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Email confirmed | Pour Score</title>
+<meta name="description" content="Your email address is confirmed. Open the Pour Score app to carry on.">
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../{v("style.css")}">
+<link rel="stylesheet" href="../{v("landing.css")}">
+<style>{CSS}</style>
+</head>
+<body class="wide">
+<header><div class="wrap">
+<a class="brand" href="../"><img src="../favicon.png" alt="">Pour Score</a>
+<nav><a href="../features/">Features</a><a href="../#support">Support</a><a href="../privacy/">Privacy</a><a href="../terms/">Terms</a></nav>
+<div class="hstores">{header_stores("../")}</div>
+</div></header>
+<main>
+<div class="cf" aria-live="polite">
+<section id="opening" hidden>
+<div class="ring"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="tr" cx="32" cy="32" r="28"/><circle class="pr" cx="32" cy="32" r="28"/></svg><img src="../favicon.png" alt=""></div>
+<p class="kicker">Email confirmed</p>
+<h1>Opening Pour&nbsp;Score</h1>
+<p>One moment, taking you back to the app.</p>
+</section>
+<section id="done">
+<div class="ok-tile"><div class="t"><img src="../patterns/stacked_heart.png" alt=""></div><div class="b">{CHECK}</div></div>
+<h1>Your email is <em>confirmed</em></h1>
+<p>Open Pour Score to carry on setting up your account.</p>
+<a class="cf-btn" id="open" href="pourscore://auth/confirmed">Open Pour Score</a>
+<p class="hint">Nothing happened? Open the app yourself and sign in with your email and password.</p>
+<a class="cf-help" href="mailto:{SUPPORT}"><span class="ic">{MAIL}</span><span><b>Need a hand?</b><span class="addr">{SUPPORT}</span></span></a>
+</section>
+<section id="problem" hidden>
+<div class="ok-tile"><div class="t"><img src="../patterns/stacked_heart.png" alt=""></div><div class="b">{WARN}</div></div>
+<h1>That link has <em>expired</em></h1>
+<p>Open the Pour Score app and sign in. We will offer to send you a new confirmation email.</p>
+<a class="cf-help" href="mailto:{SUPPORT}"><span class="ic">{MAIL}</span><span><b>Need a hand?</b><span class="addr">{SUPPORT}</span></span></a>
+</section>
+</div>
+</main>
+<footer><div class="wrap">
+<span>&copy; 2026 Pour Score. Marlon Kazim May, trading as Pour Score.</span>
+<span><a href="../features/">Features</a> &middot; <a href="../#support">Support</a> &middot; <a href="../privacy/">Privacy</a> &middot; <a href="../terms/">Terms</a></span>
+</div></footer>
+<script>{SCRIPT}</script>
 </body>
 </html>
+'''
+
+(HERE / 'confirmed').mkdir(exist_ok=True)
+(HERE / 'confirmed' / 'index.html').write_text(page)
+print('built confirmed/index.html')
