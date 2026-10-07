@@ -82,7 +82,7 @@ body.wide nav { align-items: center; }
 .phone { position: relative; width: 252px; height: 520px; border-radius: 42px; background: #0C0A09; border: 7px solid #2b2522; box-shadow: 0 0 0 1.5px #55493f, 0 40px 70px rgba(0,0,0,.6); padding: 16px 14px; color: var(--ink); font-size: 11px; line-height: 1.35; overflow: hidden; }
 .phone::before { content: ""; position: absolute; top: 8px; left: 50%; width: 74px; height: 20px; margin-left: -37px; background: #000; border-radius: 12px; }
 .phone .sb { display: flex; justify-content: space-between; font: 600 10px 'Archivo'; padding: 2px 8px 0; margin-bottom: 14px; }
-.phone h4 { font-size: 20px; letter-spacing: -.02em; margin: 6px 0 2px; }
+.phone h3 { font-size: 20px; letter-spacing: -.02em; margin: 6px 0 2px; font-weight: 700; line-height: inherit; color: inherit; }
 .mono { font: 500 9px/1.3 'IBM Plex Mono', monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .row { display: flex; align-items: center; gap: 10px; background: #1E1815; border: 1px solid var(--line); border-radius: 12px; padding: 9px; margin-top: 8px; }
 .row img { width: 32px; height: 32px; border-radius: 8px; background: #2a211c; padding: 3px; }

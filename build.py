@@ -1,9 +1,11 @@
-"""Builds pourscoreapp.com: home (src/home.html + support), /features (src/features.html), /privacy, /terms.
+"""Builds pourscoreapp.com: home (src/home.html + support), /features (src/features.html), /privacy, /terms, /security,
+plus .well-known/security.txt.
 
 The legal pages come straight from Legal Docs/extracted/*.md, so after a doc
 changes, rerun this and push:  python3 build.py
 Needs the `markdown` package (pip3 install markdown).
 """
+import datetime
 import hashlib
 import re
 from pathlib import Path
@@ -59,7 +61,7 @@ def page(title, desc, body, current, root, wide=False):
 {close_}</main>
 <footer><div class="wrap">
 <span>&copy; 2026 Pour Score. Marlon Kazim May, trading as Pour Score.</span>
-<span><a href="{root}features/">Features</a> &middot; <a href="{root}#support">Support</a> &middot; <a href="{root}privacy/">Privacy</a> &middot; <a href="{root}terms/">Terms</a></span>
+<span><a href="{root}features/">Features</a> &middot; <a href="{root}#support">Support</a> &middot; <a href="{root}privacy/">Privacy</a> &middot; <a href="{root}terms/">Terms</a> &middot; <a href="{root}security/">Security</a></span>
 </div></footer>
 {tail}
 </body>
@@ -122,4 +124,19 @@ home = fill(read('home.html')) + f'''
 (HERE / 'index.html').write_text(page('Pour Score | Turn practice into art you are proud of', 'Pour Score coaches every latte art pour step by step, with a live tilt reading, streaks and five tiers to climb.', home, 'home', '', wide=True))
 legal('Pour_Score_Privacy_Policy.md', 'Privacy Policy', 'privacy')
 legal('Pour_Score_Terms_of_Service.md', 'Terms of Service', 'terms')
-print('built index.html, features/index.html, privacy/index.html, terms/index.html')
+(HERE / 'security').mkdir(exist_ok=True)
+legal('Pour_Score_Security_Page.md', 'Report a security issue', 'security')
+
+# security.txt (RFC 9116). Expires is reset on every build, so rebuild and push at least once a year or it
+# goes stale. Contact is the support mailbox; point it at a security@ alias once one exists in Zoho.
+(HERE / '.well-known').mkdir(exist_ok=True)
+expires = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=330)).strftime('%Y-%m-%dT%H:%M:%SZ')
+(HERE / '.well-known' / 'security.txt').write_text(
+    f'Contact: mailto:{SUPPORT}\n'
+    f'Expires: {expires}\n'
+    'Preferred-Languages: en\n'
+    'Canonical: https://pourscoreapp.com/.well-known/security.txt\n'
+    'Policy: https://pourscoreapp.com/security/\n')
+# GitHub Pages runs Jekyll, which silently drops folders starting with a dot unless this file exists.
+(HERE / '.nojekyll').write_text('')
+print('built index.html, features/index.html, privacy/index.html, terms/index.html, security/index.html, .well-known/security.txt')

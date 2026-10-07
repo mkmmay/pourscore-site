@@ -1,0 +1,5 @@
+Contact: mailto:support@pourscoreapp.com
+Expires: 2027-09-02T08:06:00Z
+Preferred-Languages: en
+Canonical: https://pourscoreapp.com/.well-known/security.txt
+Policy: https://pourscoreapp.com/security/
