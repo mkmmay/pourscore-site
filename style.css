@@ -52,3 +52,7 @@ footer a { color: var(--muted); }
   .hero { grid-template-columns: 1fr; }
   .hero img { width: 160px; order: -1; }
 }
+
+.skip { position: absolute; left: 12px; top: -48px; z-index: 100; padding: 10px 16px; background: var(--accent); color: #14100E; font-weight: 600; border-radius: 8px; text-decoration: none; }
+.skip:focus { top: 12px; outline: 3px solid var(--ink); outline-offset: 2px; }
+main:focus { outline: none; }

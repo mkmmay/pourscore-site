@@ -44,6 +44,7 @@ def page(title, desc, body, current, root, wide=False):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-cvlem2Rlcb+inScVb7910PMAU98gRDEfAIUVUKXOWd4='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://brgzrpfjavmqajmaqdjc.supabase.co; base-uri 'none'; form-action 'self'; object-src 'none'">
 <title>{title}</title>
 <meta name="description" content="{desc}">
 <link rel="icon" href="{root}favicon.png">
@@ -51,12 +52,13 @@ def page(title, desc, body, current, root, wide=False):
 {extra}
 </head>
 <body{' class="wide"' if wide else ''}>
+<a class="skip" href="#main">Skip to main content</a>
 <header><div class="wrap">
 <a class="brand" href="{root}"><img src="{root}favicon.png" alt="">Pour Score</a>
 <nav>{nav}</nav>
 {stores}
 </div></header>
-<main>{open_}
+<main id="main" tabindex="-1">{open_}
 {body}
 {close_}</main>
 <footer><div class="wrap">
