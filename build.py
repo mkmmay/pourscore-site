@@ -33,6 +33,8 @@ def v(name):
 
 
 BASE = 'https://pourscoreapp.com/'
+# Search Console ownership, second method (the first is googlecc591ae8fcff4c2f.html in the site root). Keep both.
+GOOGLE_VERIFY = 'OoHxtDR82EIO0-OP8ReTyXgVBRHtZ3T2AelK3DLApL4'
 PATHS = {'home': '', 'features': 'features/', 'privacy': 'privacy/', 'terms': 'terms/', 'security': 'security/',
          'patterns': seo.HUB, 'learn': seo.LEARN, 'barista': seo.BARISTA}
 PATTERNS, ORDER = seo.load()
@@ -71,6 +73,7 @@ def page(title, desc, body, current, root, wide=False, ld=()):
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-cvlem2Rlcb+inScVb7910PMAU98gRDEfAIUVUKXOWd4='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://brgzrpfjavmqajmaqdjc.supabase.co; base-uri 'none'; form-action 'self'; object-src 'none'">
 <title>{title}</title>
 <meta name="description" content="{desc}">
+<meta name="google-site-verification" content="{GOOGLE_VERIFY}">
 {share}<link rel="icon" href="{root}favicon.png">
 <link rel="apple-touch-icon" href="{root}apple-touch-icon.png">
 <link rel="stylesheet" href="{root}{v("style.css")}">
