@@ -30,6 +30,10 @@ def v(name):
     return f'{name}?v={hashlib.md5((HERE / name).read_bytes()).hexdigest()[:8]}'
 
 
+BASE = 'https://pourscoreapp.com/'
+PATHS = {'home': '', 'features': 'features/', 'privacy': 'privacy/', 'terms': 'terms/', 'security': 'security/'}
+
+
 def page(title, desc, body, current, root, wide=False):
     nav = ''.join(
         f'<a href="{root}{href}"{" aria-current=page" if key == current else ""}>{label}</a>'
@@ -38,6 +42,17 @@ def page(title, desc, body, current, root, wide=False):
     stores = f'<div class="hstores">{header_stores(root)}</div>' if wide else ''
     extra = f'<link rel="stylesheet" href="{root}{v("landing.css")}">\n<script>document.documentElement.className="js"</script>' if wide else ''
     tail = f'<script src="{root}{v("site.js")}" defer></script>' if wide else ''
+    if current in PATHS:
+        url = BASE + PATHS[current]
+        share = (f'<link rel="canonical" href="{url}">\n'
+                 f'<meta property="og:type" content="website">\n<meta property="og:site_name" content="Pour Score">\n'
+                 f'<meta property="og:title" content="{title}">\n<meta property="og:description" content="{desc}">\n'
+                 f'<meta property="og:url" content="{url}">\n<meta property="og:image" content="{BASE}og.png">\n'
+                 f'<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n'
+                 f'<meta property="og:image:alt" content="Pour Score: turn practice into art you are proud of">\n'
+                 f'<meta name="twitter:card" content="summary_large_image">\n')
+    else:
+        share = '<meta name="robots" content="noindex">\n'
     open_, close_ = ('', '') if wide else ('<div class="wrap">', '</div>')
     return f'''<!doctype html>
 <html lang="en-GB">
@@ -47,7 +62,7 @@ def page(title, desc, body, current, root, wide=False):
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-cvlem2Rlcb+inScVb7910PMAU98gRDEfAIUVUKXOWd4='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://brgzrpfjavmqajmaqdjc.supabase.co; base-uri 'none'; form-action 'self'; object-src 'none'">
 <title>{title}</title>
 <meta name="description" content="{desc}">
-<link rel="icon" href="{root}favicon.png">
+{share}<link rel="icon" href="{root}favicon.png">
 <link rel="stylesheet" href="{root}{v("style.css")}">
 {extra}
 </head>
@@ -128,6 +143,17 @@ legal('Pour_Score_Privacy_Policy.md', 'Privacy Policy', 'privacy')
 legal('Pour_Score_Terms_of_Service.md', 'Terms of Service', 'terms')
 (HERE / 'security').mkdir(exist_ok=True)
 legal('Pour_Score_Security_Page.md', 'Report a security issue', 'security')
+
+# 404 page: GitHub Pages serves 404.html for any missing path, so every link and asset is root-absolute.
+(HERE / '404.html').write_text(page('Page not found | Pour Score', 'That page does not exist.',
+    '<p class="kicker">404</p>\n<h1>That page is not here</h1>\n<p>The link may be old or mistyped. Head back to the <a href="/">home page</a> or see the <a href="/features/">features</a>.</p>',
+    '404', '/'))
+
+# robots.txt and sitemap.xml. /confirmed/ is the landing page for the sign-up email link, not content.
+today = datetime.date.today().isoformat()
+(HERE / 'robots.txt').write_text(f'User-agent: *\nAllow: /\nDisallow: /confirmed/\n\nSitemap: {BASE}sitemap.xml\n')
+(HERE / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    + ''.join(f'<url><loc>{BASE}{p}</loc><lastmod>{today}</lastmod></url>\n' for p in PATHS.values()) + '</urlset>\n')
 
 # security.txt (RFC 9116). Expires is reset on every build, so rebuild and push at least once a year or it
 # goes stale. Contact is the support mailbox; point it at a security@ alias once one exists in Zoho.
