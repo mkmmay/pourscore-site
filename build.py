@@ -191,7 +191,7 @@ def support_cards(root):
 _s = support_cards('')
 home = fill(read('home.html')) + f'''
 <section class="sec support" id="support"><div class="wrap">
-<div class="sec-head rv"><h2>Support</h2><p>We aim to reply within 5 working days.</p></div>
+<div class="sechead rv"><div><h2>Support</h2></div><p>We aim to reply within 5 working days.</p></div>
 <div class="sgrid">
 {_s['help']}
 {_s['legal']}
