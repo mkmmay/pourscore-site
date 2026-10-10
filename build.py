@@ -1,5 +1,5 @@
 """Builds pourscoreapp.com: home (src/home.html + support), /features (src/features.html), /privacy, /terms, /security,
-the SEO pages in seo.py (/latte-art-patterns/ and its guides, /learn-latte-art/), plus .well-known/security.txt.
+the two SEO pages in seo.py (/latte-art-patterns/, /learn-latte-art/), plus .well-known/security.txt.
 
 The legal pages come straight from Legal Docs/extracted/*.md, so after a doc
 changes, rerun this and push:  python3 build.py
@@ -36,10 +36,8 @@ BASE = 'https://pourscoreapp.com/'
 # Search Console ownership, second method (the first is googlecc591ae8fcff4c2f.html in the site root). Keep both.
 GOOGLE_VERIFY = 'OoHxtDR82EIO0-OP8ReTyXgVBRHtZ3T2AelK3DLApL4'
 PATHS = {'home': '', 'features': 'features/', 'privacy': 'privacy/', 'terms': 'terms/', 'security': 'security/',
-         'patterns': seo.HUB, 'learn': seo.LEARN, 'barista': seo.BARISTA}
+         'patterns': seo.HUB, 'learn': seo.LEARN}
 PATTERNS, ORDER = seo.load()
-PATTERN_KEYS = [k for _, ks in ORDER for k in ks if k not in seo.NO_PAGE]
-PATHS.update({f'p_{k}': f'{seo.HUB}{seo.slug(k)}/' for k in PATTERN_KEYS})
 
 
 def page(title, desc, body, current, root, wide=False, ld=()):
@@ -91,7 +89,7 @@ def page(title, desc, body, current, root, wide=False, ld=()):
 {close_}</main>
 <footer><div class="wrap">
 <span>&copy; 2026 Pour Score. Marlon Kazim May, trading as Pour Score.</span>
-<span><a href="{root}{seo.HUB}">Patterns</a> &middot; <a href="{root}{seo.LEARN}">Latte art for beginners</a> &middot; <a href="{root}{seo.BARISTA}">Home barista guide</a> &middot; <a href="{root}features/">Features</a> &middot; <a href="{root}#support">Support</a> &middot; <a href="{root}privacy/">Privacy</a> &middot; <a href="{root}terms/">Terms</a> &middot; <a href="{root}security/">Security</a></span>
+<span><a href="{root}{seo.HUB}">Patterns</a> &middot; <a href="{root}{seo.LEARN}">Learn latte art</a> &middot; <a href="{root}features/">Features</a> &middot; <a href="{root}#support">Support</a> &middot; <a href="{root}privacy/">Privacy</a> &middot; <a href="{root}terms/">Terms</a> &middot; <a href="{root}security/">Security</a></span>
 <span><a href="https://www.instagram.com/pourscoreapp/" rel="me noopener">Instagram</a> &middot; <a href="https://www.tiktok.com/@pourscoreapp" rel="me noopener">TikTok</a></span>
 </div></footer>
 {tail}
@@ -154,7 +152,7 @@ home = fill(read('home.html')) + f'''
 (HERE / 'features' / 'index.html').write_text(page('Latte Art App Features: Guided Pours, Live Tilt | Pour Score', 'See every Pour Score feature: guided latte art pours, a live tilt reading, dry rehearsal, milk tutorials and streaks.', fill(read('features.html'), '../'), 'features', '../', wide=True))
 (HERE / 'index.html').write_text(page(seo.HOME_TITLE, seo.HOME_DESC, home, 'home', '', wide=True, ld=seo.home_ld()))
 
-# SEO pages generated from the app's pattern data (seo.py): hub, one guide per pattern, and the learn-latte-art FAQ.
+# SEO pages generated from the app's own data (seo.py): the patterns guide and the learn-latte-art guide.
 def write(path, current, root, built):
     title, desc, body, ld = built
     (HERE / path).mkdir(parents=True, exist_ok=True)
@@ -165,13 +163,8 @@ def esc_attr(s):
     return s.replace('&', '&amp;').replace('"', '&quot;')
 
 
-write(seo.HUB, 'patterns', '../', seo.hub_page(PATTERNS, ORDER))
+write(seo.HUB, 'patterns', '../', seo.patterns_page(PATTERNS, ORDER))
 write(seo.LEARN, 'learn', '../', seo.learn_page())
-write(seo.BARISTA, 'barista', '../', seo.barista_page())
-for i, k in enumerate(PATTERN_KEYS):
-    prev = PATTERNS[PATTERN_KEYS[i - 1]] if i else None
-    nxt = PATTERNS[PATTERN_KEYS[i + 1]] if i + 1 < len(PATTERN_KEYS) else None
-    write(f'{seo.HUB}{seo.slug(k)}/', f'p_{k}', '../../', seo.pattern_page(PATTERNS[k], prev, nxt))
 legal('Pour_Score_Privacy_Policy.md', 'Privacy Policy', 'privacy')
 legal('Pour_Score_Terms_of_Service.md', 'Terms of Service', 'terms')
 (HERE / 'security').mkdir(exist_ok=True)
