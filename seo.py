@@ -1,13 +1,15 @@
 """SEO pages built from the app's own data: the patterns guide and the learn-latte-art guide.
 
 Two pages on purpose, one per search intent, with no overlap: /latte-art-patterns/ answers "what are the patterns and how do
-I pour each one", /learn-latte-art/ answers "how do I start at home". Steps, fixes, tiers and milk sizes are read from
+I pour each one", /learn-latte-art/ answers "how do I start at home". Pattern names, tiers and milk sizes are read from
 LatteLearn/src/data/patterns.ts and milk.ts at build time, so the site never drifts from the app. Copy rules are in
 Marketing/0_Brand_Book.md: no AI scoring claim, no prices, no reviews, no em dashes, never call Pour Score a course.
 """
 import html
 import re
 from pathlib import Path
+
+from parts import CUP_BODY, CUP_DEFS
 
 HERE = Path(__file__).parent
 TS = HERE.parent / 'LatteLearn' / 'src' / 'data' / 'patterns.ts'
@@ -17,6 +19,7 @@ HUB = 'latte-art-patterns/'
 LEARN = 'learn-latte-art/'
 NB = ' '  # keeps '100 ml' on one line in narrow tables
 LEVELS = {'beginner': 'Beginner', 'home_pourer': 'Home Pourer', 'confident': 'Confident', 'cafe_ready': 'Café Ready', 'barista': 'Barista'}
+TIERS = list(LEVELS.values())  # lowest tier first, used for the tier ladder
 SLUGS = {'dot': 'monks-head', 'stacked_tulip': 'stacked-tulip', 'stacked_heart': 'rippled-heart', 'stacked_rosetta': 'stacked-rosetta', 'etched': 'etched-animals'}
 HOME_TITLE = 'Pour Score: Latte Art App for the Home Barista'
 HOME_DESC = 'Learn latte art at home with Pour Score: barista lessons on your phone, guided pours, a live tilt reading and dry rehearsal for nine coffee art patterns.'
@@ -86,36 +89,93 @@ def table(head, rows):
             + ''.join('<tr>' + ''.join(f'<td>{esc(str(c))}</td>' for c in r) + '</tr>' for r in rows) + '</tbody></table></div>')
 
 
-CTA = '''<div class="card"><h2>Practise it with Pour Score</h2>
+def drinks_table(drinks):
+    """Drink and typical milk, nothing else: common knowledge, and enough to answer the search. Cup, espresso and build notes are the
+    app's Milk Math. A normal table on desktop; under 600px each row is a card with the milk amount as the big number (style.css .cards).
+    The role attributes keep it a table for screen readers when the CSS makes the rows blocks."""
+    rows = ''.join(
+        f'<tr role="row"><td role="cell" data-k="name">{esc(n)}</td>'
+        f'<td role="cell" data-k="milk"><span class="big">{lo} to {hi}</span><small>ml<span class="mm"> milk</span></small></td></tr>'
+        for n, c, e, lo, hi, b in drinks)
+    return ('<div class="table cards"><table role="table"><thead><tr role="row"><th role="columnheader">Drink</th><th role="columnheader">Milk</th>'
+            f'</tr></thead><tbody>{rows}</tbody></table></div>')
+
+
+def head(kicker, title, lead, wm):
+    """The glass page head: kicker, h1 and lead on a panel in the page colour, with a faint pattern as watermark."""
+    return (f'<div class="pagehead"><img class="wm" src="../patterns/{wm}.png" alt="">'
+            f'<p class="kicker">{kicker}</p>\n<h1>{title}</h1>\n<p class="lead">{lead}</p></div>')
+
+
+def ladder(tier):
+    """Five bars, passed tiers edged, this pattern's tier lit (the home page's tier ladder, small)."""
+    i = TIERS.index(tier)
+    return '<span class="lad" aria-hidden="true">' + ''.join(f'<i class="{"on" if j == i else "done" if j < i else ""}"></i>' for j in range(5)) + '</span>'
+
+
+CTA = '''<section class="final"><img class="l" src="../patterns/rosetta.png" alt=""><img class="r" src="../patterns/heart.png" alt="">
+<div class="inner"><h2>Practise it with Pour Score</h2>
 <p>Pour Score draws the path across your cup in time with the pour and shows your jug angle live. Rehearse the movement with an empty jug first, then pour. Join the early access list to try it before launch.</p>
-<a class="pbtn" href="../#start">Get early access</a></div>'''
+<a class="btn" href="../#start">Get early access</a></div></section>'''
+
+
+ARROW = '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
+
+
+def tiles(pats, order, prefix=''):
+    """The nine pattern tiles in learning order. prefix is '' on the patterns page (hash links that site.js opens) or the path to that
+    page elsewhere (plain links)."""
+    out = ''
+    for k in [k for _, ks in order for k in ks]:
+        name, n = esc(pats[k]['name']), TIERS.index(pats[k]['tier'])
+        out += (f'<li><a class="ptile" href="{prefix}#{slug(k)}" data-tier="{n + 1}"><span class="pt-tier">Tier {n + 1}</span>'
+                f'<span class="pt-name">{name}</span><span class="pcup"><svg viewBox="0 0 400 400" aria-hidden="true">{CUP_BODY}</svg>'
+                f'<img src="../patterns/{k}.png" width="480" height="480" alt="The {name} latte art pattern" loading="lazy"></span>'
+                f'<span class="pt-go" aria-hidden="true">{ARROW}</span></a></li>')
+    return out
+
+
+def heart_trace():
+    """The Heart's guided path drawn on the cup: the pool grows, then one line is pulled through (paths from the app's patterns.ts,
+    in its 200 unit box). Only the Heart gets this, because it is the sample; the other patterns' paths are the lessons."""
+    return ('<g class="trace" transform="translate(76 76) scale(1.24)" fill="none" stroke="#FFF6EC" stroke-width="5" stroke-linecap="round">'
+            '<circle class="tr-pool" cx="100" cy="108" r="34"/><path class="tr-line" d="M100 150 L100 46" pathLength="1"/></g>')
 
 
 def patterns_page(pats, order):
-    """(title, description, body, json-ld) for latte-art-patterns/ (root ../). One page, one section per pattern."""
-    jump = ' &middot; '.join(f'<a href="#{slug(k)}">{esc(pats[k]["name"])}</a>' for _, ks in order for k in ks)
-    sections = ''
-    for tier, keys in order:
-        sections += f'<h2>{tier}</h2>\n'
-        for k in keys:
-            p, name = pats[k], esc(pats[k]['name'])
-            heading = name if k == 'etched' else f'How to pour a latte art {name.lower()}'
-            steps = f"<li><strong>Lay the base.</strong> Fill the cup to about {p['canvas']}% first.</li>"
-            steps += ''.join(f'<li><strong>{esc(lab.capitalize())}.</strong> {esc(cue)}</li>' for lab, cue in p['phases'])
-            art = (HERE / 'patterns' / f'{k}.png').exists()  # Monk's Head and Etched Animals have no illustration yet
-            img = f'<img src="../patterns/{k}.png" width="480" height="480" alt="The {name} latte art pattern" loading="lazy">' if art else ''
-            sections += (f'<div class="pat"><div><h3 id="{slug(k)}">{heading}</h3><p>{esc(p["blurb"])}</p>'
-                         f'<ol class="steps">{steps}</ol><p><strong>If it goes wrong.</strong> {esc(p["fix"])}</p></div>{img}</div>\n')
-    body = f'''<p class="kicker">Pour Score</p>
-<h1>Latte art patterns, from monk's head to swan</h1>
-<p class="lead">Nine coffee art patterns, grouped by the tier Pour Score teaches them in. Each one has the steps and the fix for its most common fault.</p>
-<p>The monk's head is a heart without the tail, and every other pattern is built on it. Add a pull-through and you have a heart. Add a wiggle and you have a rosetta. Push dollops into each other and you have a tulip. Learn them in that order and each new pattern adds only one new movement.</p>
-<p class="jump">Jump to: {jump}</p>
-<h2>Start every pattern with the base</h2>
-<p>Swirl the crema away first, tilt the cup a little and start low in the middle. Rise 2 to 3 cm and move gently side to side until the cup is as full as the pattern needs, a figure given in each section below. Stay off the edges, or foam rides up the wall and shows white.</p>
-{sections}<p>New to all of this? Read <a href="../{LEARN}">learn latte art at home</a> first.</p>
+    """(title, description, body, json-ld) for latte-art-patterns/ (root ../). A grid of nine tiles in learning order; tap one and a
+    glass box shows what it is, its tier, a cup with the art pouring in and a way into the app (site.js moves it under the tile's row).
+    The nine boxes are real sections in the page, so search engines and no-JS readers get them. Only the Heart, the free sample, comes
+    with a how-to; every other pattern's steps stay in the app."""
+    details = ''
+    for k in [k for _, ks in order for k in ks]:
+        p, name, n = pats[k], esc(pats[k]['name']), TIERS.index(pats[k]['tier'])
+        chapters = len(p['phases'])
+        extra = heart_trace() if k == 'heart' else ''
+        more = ('<a href="#how-to-pour-a-heart">How to pour it is below.</a>' if k == 'heart'
+                else f'Guided live in Pour Score: {chapters} chapters, with the path drawn on your cup.')
+        details += (f'<section class="pdetail" id="{slug(k)}" aria-label="{name}"><div class="pd-text"><p class="tier">{ladder(p["tier"])}'
+                    f'<span class="ml">Tier {n + 1} of 5 &middot; {p["tier"]}</span></p><h3>{name}</h3><p>{esc(p["blurb"])}</p>'
+                    f'<p class="teach">{more}</p><a class="btn sm" href="../#start">Get early access</a></div>'
+                    f'<div class="pcup pd-cup"><svg viewBox="0 0 400 400" aria-hidden="true">{CUP_BODY}{extra}</svg>'
+                    f'<img src="../patterns/{k}.png" width="480" height="480" alt="" loading="lazy"></div></section>')
+    h = pats['heart']
+    parts = [('Lay the base', f"Fill the cup to about {h['canvas']}% first.")] + [(lab.capitalize(), cue) for lab, cue in h['phases']]
+    moves = ''.join(f'<li><span class="mv-n">{i:02d}</span><b>{esc(t)}</b><span class="mv-t">{esc(c)}</span></li>' for i, (t, c) in enumerate(parts, 1))
+    lead = 'Nine coffee art patterns, grouped by the tier Pour Score teaches them in. Tap one to see what it is.'
+    body = f'''<svg class="cupdefs" width="0" height="0" aria-hidden="true" focusable="false">{CUP_DEFS}</svg>
+{head('Pour Score &middot; Patterns', "Latte art patterns, from monk's head to swan", lead, 'swan')}
+<h2>The nine latte art patterns</h2>
+<ul class="pgrid">{tiles(pats, order, '')}</ul>
+<div class="pdetails">{details}</div>
+<p>Pour Score groups the nine patterns into five tiers: Beginner, Home Pourer, Confident, Café Ready and Barista. Each tier is earned from real pours.</p>
+<section class="fbub how" id="how-to-pour-a-heart"><span class="num">Free guide</span><h2>How to pour a heart</h2>
+<p>A free guide to your first latte art heart, in three moves.</p>
+<ol class="moves">{moves}</ol>
+<p class="how-foot">In Pour Score the path is drawn across your cup and timed for you.</p></section>
+<p>New to all of this? Read <a href="../{LEARN}">learn latte art at home</a> first.</p>
 {CTA}'''
-    desc = "Nine coffee art patterns in learning order, from monk's head and heart to rosetta, tulip and swan. Steps and the fix for each common fault."
+    desc = "Nine coffee art patterns in learning order, from monk's head to swan, with a how-to for the latte art heart."
     return ('Latte Art Patterns: Heart, Rosetta, Tulip, Swan | Pour Score', desc, body, crumbs(('Home', ''), ('Latte art patterns', HUB)))
 
 
@@ -123,8 +183,8 @@ def faq():
     """(question, answer html) pairs. Every answer comes from the app or its approved store description."""
     return [
         ('Can you learn latte art at home?',
-         "Yes, if you have an espresso machine, a milk jug and a cup. Start with the milk, then pour a monk's head, then a heart, "
-         "and add one new pattern at a time. Pour Score is built for this: it guides each pour step by step and gives you a short drill to practise each day."),
+         "Yes, if you have an espresso machine, a milk jug and a cup. Pour Score is built for this: it guides each pour step by step "
+         "and gives you a short drill to practise each day."),
         ('Are there online barista lessons for home baristas?',
          "Pour Score's lessons run on your phone, at your own pace, beside your own espresso machine. They cover milk texture and latte art, from a first monk's head to a swan. "
          "Pour Score is not a video course, a qualification or an accredited course, and there is no live tutor. It does not cover espresso extraction or running a café bar."),
@@ -144,41 +204,29 @@ def faq():
 
 
 def learn_page():
-    """(title, description, body, json-ld) for learn-latte-art/ (root ../). The one beginner guide: kit, milk, first pattern, practice, questions."""
-    jugs, drinks, cups, steps = load_milk()
-    ml = lambda oz: round(oz * 29.5735 / 5) * 5
+    """(title, description, body, json-ld) for learn-latte-art/ (root ../). The one beginner guide: kit, typical milk, where to start, practice, questions."""
+    drinks = load_milk()[1]
     pat = lambda k: f'../{HUB}#{slug(k)}'
-    drink_rows = [(n, f'{c}{NB}ml', f'{e}{NB}ml', f'{lo} to {hi}{NB}ml', b) for n, c, e, lo, hi, b in drinks]
-    cup_rows = [(n, f'{oz}{NB}oz, about {ml(oz)}{NB}ml', note) for n, oz, note in cups]
-    steam = ''.join(f'<li><strong>{esc(t)}.</strong> {esc(b)}</li>' for t, b in steps[:2])
     qs = faq()
     questions = ''.join(f'<h3>{esc(q)}</h3>\n<p>{a}</p>\n' for q, a in qs)
-    body = f'''<p class="kicker">Pour Score</p>
-<h1>Learn latte art at home: a guide for the home barista</h1>
-<p class="lead">Latte art for beginners, in the order that works: the kit, the milk, the first pattern, then practice. The sizes and steps are the ones Pour Score's coach uses.</p>
+    lead = "Latte art for beginners: what a home barista needs, how much milk each drink takes, and where to go next. The milk sizes are the ones Pour Score's coach uses."
+    body = f'''{head('Pour Score &middot; Learn', 'Learn latte art at home: a guide for the home barista', lead, 'rosetta')}
 <h2>What a home barista needs to start</h2>
 <p>An espresso machine, a milk jug, a cup and a phone you can prop up. The size of your jug and cup changes how much room you have for a pattern, so Pour Score asks about your coffee station once and fits the guide to it.</p>
 <h3>How much milk for each drink</h3>
-<p>Starting points for each drink. Adjust to your own cup.</p>
-{table(('Drink', 'Cup', 'Espresso', 'Milk', 'How it is built'), drink_rows)}
-<h3>Which milk jug</h3>
-{table(('Jug', 'Best for'), jugs)}
-<h3>Which cup</h3>
-<p>The cup sets how much room you have for a pattern.</p>
-{table(('Cup', 'Size', 'What it means for your pour'), cup_rows)}
+<p>Typical starting points. Pour Score's Milk Math fits them to your own jug and cup.</p>
+{drinks_table(drinks)}
 <h2>Steam the milk first</h2>
-<ol class="steps">{steam}</ol>
-<p><strong>{esc(steps[2][0])}.</strong> {esc(steps[2][1])}</p>
-<p><strong>{esc(steps[3][0])}.</strong> {esc(steps[3][1])} Pour Score's Milk First chapters cover stretching, texture and swirling, with fixes for beige milk, big bubbles and thin foam.</p>
+<p>Texture decides whether a pattern holds. Pour Score's milk chapters cover stretching, texture and swirling, with fixes for beige milk, big bubbles and thin foam.</p>
 <h2>Which latte art pattern to learn first</h2>
-<p>Start with the <a href="{pat('dot')}">monk's head</a>. It is a heart without the tail: one drop, no wiggle, and the shape every other pattern is built on. The <a href="{pat('heart')}">heart</a> comes next, then the <a href="{pat('tulip')}">tulip</a>. The <a href="{pat('rosetta')}">rosetta</a> sits at the Confident tier. See <a href="../{HUB}">all nine latte art patterns</a> with the steps for each.</p>
+<p>Pour Score teaches nine patterns across five tiers, from the <a href="{pat('dot')}">monk's head</a> to the <a href="{pat('swan')}">swan</a>, each tier earned from real pours. See <a href="../{HUB}">all nine latte art patterns</a> and the tier each one belongs to.</p>
 <h2>Practise without wasting milk</h2>
 <p>For latte art practice that costs no milk, rehearse the movement dry. In Pour Score's dry rehearsal a trace scrolls down the screen and you mirror it with an empty jug, so you can practise the rocking and the pull-through before you steam any milk. Rehearse in the evening, pour in the morning.</p>
 <h2>Common questions</h2>
 {questions}{CTA}'''
     ld = {'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
         {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': strip(a)}} for q, a in qs]}
-    desc = 'Learn latte art at home: what a home barista needs, how much milk each drink takes, which pattern to pour first, and how to practise without wasting milk.'
+    desc = 'Learn latte art at home: what a home barista needs, how much milk each drink takes, where to start and how to practise without wasting milk.'
     return "Learn Latte Art at Home: A Home Barista's Guide | Pour Score", desc, body, [ld, crumbs(('Home', ''), ('Learn latte art at home', LEARN))]
 
 

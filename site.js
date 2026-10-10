@@ -1,4 +1,4 @@
-// Scroll reveal (all pages) + the hero cup that changes its latte art (home only).
+// Scroll reveal and the sticky header offset (all pages), the hero cup that changes its latte art (home only), guide page behaviour.
 (function () {
   var rv = document.querySelectorAll('.rv');
   if ('IntersectionObserver' in window) {
@@ -66,6 +66,60 @@
         else { clearTimeout(tick); tick = null; }
       }, { threshold: 0.3 }).observe(ladder);
     }
+  }
+
+  // Guide and legal pages: header height for the sticky offsets, the cup art pours in, the jump bar lights the section on screen.
+  var hdr = document.querySelector('header');
+  var setH = function () { if (hdr) document.documentElement.style.setProperty('--hh', hdr.offsetHeight + 'px'); };
+  setH(); addEventListener('resize', setH);
+  // Pattern grid: tap a tile and its glass box opens under that tile's row (three tiles a row). The nine boxes stay in the page.
+  var grid = document.querySelector('.pgrid');
+  if (grid && grid.querySelector('.ptile').getAttribute('href').charAt(0) === '#') {
+    var tiles = [].slice.call(grid.querySelectorAll('.ptile')), panel = document.createElement('li'), shown = null;
+    panel.className = 'pstage'; panel.setAttribute('aria-live', 'polite');
+    var show = function (i) {
+      if (shown) shown.removeAttribute('aria-current');
+      shown = tiles[i]; shown.setAttribute('aria-current', 'true');
+      panel.innerHTML = document.getElementById(shown.getAttribute('href').slice(1)).innerHTML;
+      var last = Math.min(tiles.length - 1, i - (i % 3) + 2);
+      grid.insertBefore(panel, tiles[last].parentNode.nextSibling);
+      panel.classList.remove('in'); void panel.offsetWidth; panel.classList.add('in');
+    };
+    var fromHash = function () {
+      var i = tiles.map(function (t) { return t.getAttribute('href'); }).indexOf(location.hash);
+      show(i < 0 ? 0 : i);
+      return i >= 0;
+    };
+    tiles.forEach(function (t, i) {
+      t.addEventListener('click', function (e) { e.preventDefault(); history.replaceState(null, '', t.getAttribute('href')); show(i); });
+    });
+    if (fromHash()) grid.scrollIntoView();
+    addEventListener('hashchange', function () { if (fromHash()) grid.scrollIntoView(); });
+  }
+  var bar = document.querySelector('.jumpbar');
+  if (bar) {
+    var links = {}, heads = [], cur = null, queued = false;
+    bar.querySelectorAll('a').forEach(function (a) {
+      var id = a.getAttribute('href').slice(1), h = document.getElementById(id);
+      if (h) { links[id] = a; heads.push(h); }
+    });
+    var mark = function (id) {
+      if (cur) cur.removeAttribute('aria-current');
+      cur = links[id]; cur.setAttribute('aria-current', 'true');
+      // keep the lit chip inside the bar (sideways on a phone, up and down in the side rail)
+      var b = bar.getBoundingClientRect(), c = cur.getBoundingClientRect();
+      if (c.left < b.left + 8 || c.right > b.right - 8) bar.scrollLeft += c.left - b.left - 8;
+      if (c.top < b.top || c.bottom > b.bottom) bar.scrollTop += c.top - b.top - 8;
+    };
+    // the section on screen is the last heading that has reached a line just under the sticky header and bar
+    var update = function () {
+      queued = false;
+      var line = (hdr ? hdr.offsetHeight : 65) + 120, id = null;
+      heads.forEach(function (h) { if (h.getBoundingClientRect().top <= line) id = h.id; });
+      if (id && links[id] !== cur) mark(id);
+    };
+    addEventListener('scroll', function () { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
   }
 
   var stage = document.getElementById('stage');

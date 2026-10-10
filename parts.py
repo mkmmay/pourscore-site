@@ -37,11 +37,11 @@ def row_img(n, name, sub, tag, green):
 
 
 PH_LIST = phone('<span class="mono">Patterns</span><h3>Pick a pour</h3>' + ''.join(
-    row_img(*r) for r in [('heart', 'Heart', '3 chapters', 'Start here', 1), ('tulip', 'Tulip', 'Stacked petals', 'Tier 2', 0),
+    row_img(*r) for r in [('heart', 'Heart', '2 chapters', 'Start here', 1), ('tulip', 'Tulip', 'Stacked petals', 'Tier 2', 0),
                           ('rosetta', 'Rosetta', 'Wiggle and pull', 'Tier 3', 0), ('swan', 'Swan', 'The showpiece', 'Tier 5', 0)]
 ) + '<div class="btn-m">Start guided pour</div>')
 
-PH_POUR = phone('''<span class="mono">Heart &middot; chapter 2 of 3</span><h3>Pull through</h3>
+PH_POUR = phone('''<span class="mono">Heart &middot; phase 2 of 2</span><h3>Pull through</h3>
 <div class="disc"><svg viewBox="0 0 200 200"><path class="trail" d="M100 150 C 60 130, 55 80, 100 62 C 145 80, 140 130, 100 150" fill="none" stroke="#FFF6EC" stroke-width="9" stroke-linecap="round"/><circle cx="100" cy="150" r="6" fill="#E4572E"/></svg></div>
 <div class="readout"><div><span class="mono">Tilt</span><br><big>28&deg;</big></div><div style="text-align:right"><span class="mono">Jug height</span><br><b style="font-size:15px;color:var(--ink)">Close</b></div></div>
 <div class="bar"><i style="width:68%"></i></div><div class="mono" style="margin-top:6px">68% of the pattern</div>''')
@@ -55,7 +55,7 @@ PH_TRACE = phone('''<span class="mono">Dry rehearsal</span><h3>Mirror the trace<
 <svg viewBox="0 0 200 250" style="width:100%;margin-top:10px"><path d="M100 0 C 140 20, 60 40, 140 60 S 60 100, 140 120 S 100 150, 100 170 L100 245" fill="none" stroke="#E4572E" stroke-width="5" stroke-linecap="round" stroke-dasharray="6 8" opacity=".6"/><path d="M100 0 C 140 20, 60 40, 140 60 S 60 100, 140 120" fill="none" stroke="#FFF6EC" stroke-width="5" stroke-linecap="round"/><circle cx="140" cy="120" r="8" fill="#E4572E"/></svg>
 <div class="btn-m">Nice. Try it for real?</div>''')
 
-PH_MILK = phone('<span class="mono">Chapter 0</span><h3>Milk first</h3>' + ''.join(
+PH_MILK = phone('<span class="mono">Milk</span><h3>Perfect your milk</h3>' + ''.join(
     f'<div class="row"><span class="tag{" g" if d else ""}">{n}</span><span><b>{s}</b><i>{x}</i></span></div>'
     for n, s, x, d in [('1', 'Stretch', 'Add air until it feels warm', 1), ('2', 'Texture', 'Glossy, like wet paint', 1),
                        ('3', 'Swirl', 'Keep it moving until you pour', 0), ('4', 'Fix it', 'Beige, bubbly or thin?', 0)]))
@@ -72,7 +72,7 @@ _CARDS = [
     ('guided', 'Guided pours', 'A path draws across the cup in time with the pour, hands free.', '<path d="M4 18c4-10 12-10 16 0M12 4v6"/>'),
     ('tilt', 'Live tilt', 'See your cup angle in degrees, green when you are in range.', '<path d="M4 18a8 8 0 0 1 16 0M12 18l4-6"/>'),
     ('rehearsal', 'Dry rehearsal', 'Practise the motion with an empty jug and a scrolling trace.', '<path d="M3 12c3-6 5 6 8 0s5 6 8 0"/>'),
-    ('milk', 'Milk first', 'Stretching and texture, explained plainly with fixes for faults.', '<path d="M8 3h8l-1 5 2 4v9H7v-9l2-4z"/>'),
+    ('milk', 'Perfect your milk', 'Stretching and texture, explained plainly with fixes for faults.', '<path d="M8 3h8l-1 5 2 4v9H7v-9l2-4z"/>'),
     ('progress', 'Progress and streaks', 'Log pours, keep your flame lit and unlock five tiers.', '<path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/>'),
     ('patterns', 'Pattern library', 'Nine patterns from a first heart to a swan.', '<circle cx="12" cy="12" r="9"/><path d="M12 7v10M7 12h10"/>'),
 ]
@@ -80,9 +80,12 @@ CARDS = ''.join(
     f'<a class="fcard rv" href="features/#{k}"><span class="ic"><svg viewBox="0 0 24 24">{ic}</svg></span><h3>{h}</h3><p>{p}</p><span class="more">Learn more &rarr;</span></a>'
     for k, h, p, ic in _CARDS)
 
-GALLERY = ''.join(f'<div><img src="patterns/{n}.png" alt="">{label}</div>' for n, label in [
-    ('heart', 'Heart'), ('rosetta', 'Rosetta'), ('tulip', 'Tulip'), ('swan', 'Swan'),
-    ('stacked_tulip', 'Stacked Tulip'), ('stacked_rosetta', 'Stacked Rosetta'), ('stacked_heart', 'Rippled Heart')])
 
-SUBS = {'{store}': STORE, '{store_dark}': STORE, '{ph_list}': PH_LIST, '{ph_pour}': PH_POUR, '{ph_tilt}': PH_TILT,
-        '{ph_trace}': PH_TRACE, '{ph_milk}': PH_MILK, '{ph_prog}': PH_PROG, '{cards}': CARDS, '{gallery}': GALLERY}
+# The cup from the home hero, shared with the pattern guide. Gradients live in CUP_DEFS so a page with several cups
+# can define them once (one hidden <svg>) and every cup just references them.
+CUP_DEFS = '<defs>\n<radialGradient id="cf" cx="50%" cy="42%" r="60%"><stop offset="0" stop-color="#A8744A"/><stop offset=".6" stop-color="#7A4F33"/><stop offset="1" stop-color="#4A2F1E"/></radialGradient>\n<radialGradient id="sc" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#F6EEE4"/><stop offset="1" stop-color="#CBBBA9"/></radialGradient>\n<radialGradient id="mg" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#FFFaF2"/><stop offset="1" stop-color="#DCCDBC"/></radialGradient>\n</defs>\n'
+CUP_BODY = '<circle cx="200" cy="200" r="192" fill="url(#sc)"/>\n<circle cx="200" cy="200" r="168" fill="none" stroke="#B9A794" stroke-width="2" opacity=".6"/>\n<path d="M318 168h50a30 30 0 0 1 0 64h-50v-18h48a12 12 0 0 0 0-28h-48z" fill="url(#mg)" stroke="#BFAF9C" stroke-width="2"/>\n<circle cx="200" cy="200" r="148" fill="url(#mg)"/>\n<circle cx="200" cy="200" r="130" fill="#C9B9A6"/>\n<circle cx="200" cy="200" r="124" fill="url(#cf)"/>\n<circle cx="200" cy="200" r="124" fill="none" stroke="rgba(0,0,0,.25)" stroke-width="3"/>\n'
+CUP_SVG = '<svg viewBox="0 0 400 400" aria-hidden="true">\n' + CUP_DEFS + CUP_BODY + '</svg>\n'
+
+SUBS = {'{cup_svg}': CUP_SVG, '{store}': STORE, '{store_dark}': STORE, '{ph_list}': PH_LIST, '{ph_pour}': PH_POUR, '{ph_tilt}': PH_TILT,
+        '{ph_trace}': PH_TRACE, '{ph_milk}': PH_MILK, '{ph_prog}': PH_PROG, '{cards}': CARDS}

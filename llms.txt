@@ -7,7 +7,7 @@
 - Guided pours: a path draws itself across the cup in time with the pour, at full, half or quarter speed.
 - Live tilt reading: the phone shows the angle of the jug or cup in degrees and turns green when you are in range for that phase.
 - Dry rehearsal: practise the hand movement with an empty jug, so no milk is wasted.
-- Milk First: short lessons on stretching, texture and swirling milk, with fixes for beige milk, big bubbles and thin foam.
+- Perfect your milk: short lessons on stretching, texture and swirling milk, with fixes for beige milk, big bubbles and thin foam.
 - Nine latte art patterns, in the order the app teaches them: monk's head, heart, tulip, rippled heart, rosetta, stacked tulip, swan, etched animals and stacked rosetta.
 - Pour log with a photo, a streak and five tiers: Beginner, Home Pourer, Confident, Café Ready and Barista. Tiers are earned from real pours.
 - Coaching that fits your kit: set up your coffee station once and the guide fits your jug and cup.
@@ -19,8 +19,9 @@ Adults (18+) with an espresso machine and a jug of milk, from new machine owners
 ## Pages
 
 - [Home](https://pourscoreapp.com/): what Pour Score is and how it works
-- [Latte art patterns](https://pourscoreapp.com/latte-art-patterns/): all nine patterns on one page, with the steps and the fix for each common fault
-- [Learn latte art at home](https://pourscoreapp.com/learn-latte-art/): a guide for the home barista: kit, milk sizes, first pattern, practice and common questions. States plainly that Pour Score is not a course, qualification or live class
+- [Latte art patterns](https://pourscoreapp.com/latte-art-patterns/): the nine patterns in learning order, each with its tier
+- [Learn latte art at home](https://pourscoreapp.com/learn-latte-art/): a guide for the home barista: kit, typical milk per drink, where to start, practice and common questions. States plainly that Pour Score is not a course, qualification or live class
+- [Support](https://pourscoreapp.com/support/): how to contact Pour Score, report a security problem and delete your account
 - [Features](https://pourscoreapp.com/features/): guided pours, live tilt, dry rehearsal, milk lessons, progress and streaks
 - [Privacy Policy](https://pourscoreapp.com/privacy/)
 - [Terms of Service](https://pourscoreapp.com/terms/)
