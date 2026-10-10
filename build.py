@@ -1,5 +1,5 @@
 """Builds pourscoreapp.com: home (src/home.html + support), /features (src/features.html), /privacy, /terms, /security,
-plus .well-known/security.txt.
+the SEO pages in seo.py (/latte-art-patterns/ and its guides, /learn-latte-art/), plus .well-known/security.txt.
 
 The legal pages come straight from Legal Docs/extracted/*.md, so after a doc
 changes, rerun this and push:  python3 build.py
@@ -7,10 +7,12 @@ Needs the `markdown` package (pip3 install markdown).
 """
 import datetime
 import hashlib
+import json
 import re
 from pathlib import Path
 
 import markdown
+import seo
 from parts import SUBS, header_stores
 
 HERE = Path(__file__).parent
@@ -31,10 +33,14 @@ def v(name):
 
 
 BASE = 'https://pourscoreapp.com/'
-PATHS = {'home': '', 'features': 'features/', 'privacy': 'privacy/', 'terms': 'terms/', 'security': 'security/'}
+PATHS = {'home': '', 'features': 'features/', 'privacy': 'privacy/', 'terms': 'terms/', 'security': 'security/',
+         'patterns': seo.HUB, 'learn': seo.LEARN, 'barista': seo.BARISTA}
+PATTERNS, ORDER = seo.load()
+PATTERN_KEYS = [k for _, ks in ORDER for k in ks if k not in seo.NO_PAGE]
+PATHS.update({f'p_{k}': f'{seo.HUB}{seo.slug(k)}/' for k in PATTERN_KEYS})
 
 
-def page(title, desc, body, current, root, wide=False):
+def page(title, desc, body, current, root, wide=False, ld=()):
     nav = ''.join(
         f'<a href="{root}{href}"{" aria-current=page" if key == current else ""}>{label}</a>'
         for key, href, label in [('features', 'features/', 'Features'), ('support', '#support', 'Support'), ('privacy', 'privacy/', 'Privacy'), ('terms', 'terms/', 'Terms')]
@@ -54,6 +60,9 @@ def page(title, desc, body, current, root, wide=False):
     else:
         share = '<meta name="robots" content="noindex">\n'
     open_, close_ = ('', '') if wide else ('<div class="wrap">', '</div>')
+    # JSON-LD is a data block, so the script-src rule in the CSP below does not apply to it.
+    for block in [ld] if isinstance(ld, dict) else ld:
+        share += '<script type="application/ld+json">' + json.dumps(block, ensure_ascii=False).replace('</', '<\\/') + '</script>\n'
     return f'''<!doctype html>
 <html lang="en-GB">
 <head>
@@ -63,6 +72,7 @@ def page(title, desc, body, current, root, wide=False):
 <title>{title}</title>
 <meta name="description" content="{desc}">
 {share}<link rel="icon" href="{root}favicon.png">
+<link rel="apple-touch-icon" href="{root}apple-touch-icon.png">
 <link rel="stylesheet" href="{root}{v("style.css")}">
 {extra}
 </head>
@@ -78,7 +88,8 @@ def page(title, desc, body, current, root, wide=False):
 {close_}</main>
 <footer><div class="wrap">
 <span>&copy; 2026 Pour Score. Marlon Kazim May, trading as Pour Score.</span>
-<span><a href="{root}features/">Features</a> &middot; <a href="{root}#support">Support</a> &middot; <a href="{root}privacy/">Privacy</a> &middot; <a href="{root}terms/">Terms</a> &middot; <a href="{root}security/">Security</a></span>
+<span><a href="{root}{seo.HUB}">Patterns</a> &middot; <a href="{root}{seo.LEARN}">Latte art for beginners</a> &middot; <a href="{root}{seo.BARISTA}">Home barista guide</a> &middot; <a href="{root}features/">Features</a> &middot; <a href="{root}#support">Support</a> &middot; <a href="{root}privacy/">Privacy</a> &middot; <a href="{root}terms/">Terms</a> &middot; <a href="{root}security/">Security</a></span>
+<span><a href="https://www.instagram.com/pourscoreapp/" rel="me noopener">Instagram</a> &middot; <a href="https://www.tiktok.com/@pourscoreapp" rel="me noopener">TikTok</a></span>
 </div></footer>
 {tail}
 </body>
@@ -137,8 +148,27 @@ home = fill(read('home.html')) + f'''
 '''
 
 (HERE / 'features').mkdir(exist_ok=True)
-(HERE / 'features' / 'index.html').write_text(page('Features | Pour Score', 'Guided pours, a live tilt reading, dry rehearsal, milk tutorials and streaks. See what is inside Pour Score.', fill(read('features.html'), '../'), 'features', '../', wide=True))
-(HERE / 'index.html').write_text(page('Pour Score | Turn practice into art you are proud of', 'Pour Score coaches every latte art pour step by step, with a live tilt reading, streaks and five tiers to climb.', home, 'home', '', wide=True))
+(HERE / 'features' / 'index.html').write_text(page('Latte Art App Features: Guided Pours, Live Tilt | Pour Score', 'See every Pour Score feature: guided latte art pours, a live tilt reading, dry rehearsal, milk tutorials and streaks.', fill(read('features.html'), '../'), 'features', '../', wide=True))
+(HERE / 'index.html').write_text(page(seo.HOME_TITLE, seo.HOME_DESC, home, 'home', '', wide=True, ld=seo.home_ld()))
+
+# SEO pages generated from the app's pattern data (seo.py): hub, one guide per pattern, and the learn-latte-art FAQ.
+def write(path, current, root, built):
+    title, desc, body, ld = built
+    (HERE / path).mkdir(parents=True, exist_ok=True)
+    (HERE / path / 'index.html').write_text(page(title, esc_attr(desc), body, current, root, ld=ld))
+
+
+def esc_attr(s):
+    return s.replace('&', '&amp;').replace('"', '&quot;')
+
+
+write(seo.HUB, 'patterns', '../', seo.hub_page(PATTERNS, ORDER))
+write(seo.LEARN, 'learn', '../', seo.learn_page())
+write(seo.BARISTA, 'barista', '../', seo.barista_page())
+for i, k in enumerate(PATTERN_KEYS):
+    prev = PATTERNS[PATTERN_KEYS[i - 1]] if i else None
+    nxt = PATTERNS[PATTERN_KEYS[i + 1]] if i + 1 < len(PATTERN_KEYS) else None
+    write(f'{seo.HUB}{seo.slug(k)}/', f'p_{k}', '../../', seo.pattern_page(PATTERNS[k], prev, nxt))
 legal('Pour_Score_Privacy_Policy.md', 'Privacy Policy', 'privacy')
 legal('Pour_Score_Terms_of_Service.md', 'Terms of Service', 'terms')
 (HERE / 'security').mkdir(exist_ok=True)

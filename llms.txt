@@ -1,0 +1,33 @@
+# Pour Score
+
+> Pour Score is a latte art coach app for home baristas. It guides each pour step by step, shows the angle of your jug live, and takes you from your first heart to a swan. It is in early access and launching on the App Store and Google Play.
+
+## What it does
+
+- Guided pours: a path draws itself across the cup in time with the pour, at full, half or quarter speed.
+- Live tilt reading: the phone shows the angle of the jug or cup in degrees and turns green when you are in range for that phase.
+- Dry rehearsal: practise the hand movement with an empty jug, so no milk is wasted.
+- Milk First: short lessons on stretching, texture and swirling milk, with fixes for beige milk, big bubbles and thin foam.
+- Nine latte art patterns, in the order the app teaches them: monk's head, heart, tulip, rippled heart, rosetta, stacked tulip, swan, etched animals and stacked rosetta.
+- Pour log with a photo, a streak and five tiers: Beginner, Home Pourer, Confident, Café Ready and Barista. Tiers are earned from real pours.
+- Coaching that fits your kit: set up your coffee station once and the guide fits your jug and cup.
+
+## Who it is for
+
+Adults (18+) with an espresso machine and a jug of milk, from new machine owners pouring a first heart to home baristas working on rosettas and swans.
+
+## Pages
+
+- [Home](https://pourscoreapp.com/): what Pour Score is and how it works
+- [Latte art patterns](https://pourscoreapp.com/latte-art-patterns/): all nine patterns with steps and the fix for each common fault
+- [Latte art for beginners](https://pourscoreapp.com/learn-latte-art/): how to learn latte art at home, in common questions
+- [Home barista guide](https://pourscoreapp.com/home-barista/): how much milk each drink takes, which jug and cup to use, and how to steam milk
+- [Features](https://pourscoreapp.com/features/): guided pours, live tilt, dry rehearsal, milk lessons, progress and streaks
+- [Privacy Policy](https://pourscoreapp.com/privacy/)
+- [Terms of Service](https://pourscoreapp.com/terms/)
+
+## Contact
+
+- Support: support@pourscoreapp.com
+- Early access list: https://pourscoreapp.com/#start
+- Instagram and TikTok: @pourscoreapp

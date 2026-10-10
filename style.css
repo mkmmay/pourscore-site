@@ -56,3 +56,12 @@ footer a { color: var(--muted); }
 .skip { position: absolute; left: 12px; top: -48px; z-index: 100; padding: 10px 16px; background: var(--accent); color: #14100E; font-weight: 600; border-radius: 8px; text-decoration: none; }
 .skip:focus { top: 12px; outline: 3px solid var(--ink); outline-offset: 2px; }
 main:focus { outline: none; }
+
+/* SEO pages: pattern guides, the patterns hub and the learn-latte-art FAQ */
+.hero img { border-radius: 0; height: auto; }
+.steps li { margin: 0 0 12px; }
+.plist { list-style: none; padding: 0; }
+.plist li { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.plist a { font-weight: 600; }
+.pbtn { display: inline-block; background: var(--accent); color: #14100E; font-weight: 600; text-decoration: none; padding: 12px 22px; border-radius: 999px; }
+.pbtn:hover { background: #F07A50; }
