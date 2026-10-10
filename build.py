@@ -185,8 +185,13 @@ legal('Pour_Score_Security_Page.md', 'Report a security issue', 'security')
 # robots.txt and sitemap.xml. /confirmed/ is the landing page for the sign-up email link, not content.
 today = datetime.date.today().isoformat()
 (HERE / 'robots.txt').write_text(f'User-agent: *\nAllow: /\nDisallow: /confirmed/\n\nSitemap: {BASE}sitemap.xml\n')
-(HERE / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     + ''.join(f'<url><loc>{BASE}{p}</loc><lastmod>{today}</lastmod></url>\n' for p in PATHS.values()) + '</urlset>\n')
+(HERE / 'sitemap.xml').write_text(sitemap)
+# Same list under a second name and as plain text: Search Console sometimes sticks on "could not be read" for one
+# address on a new property (10 Oct 2026). Submit whichever it accepts; robots.txt keeps pointing at sitemap.xml.
+(HERE / 'sitemap-pages.xml').write_text(sitemap)
+(HERE / 'sitemap.txt').write_text(''.join(f'{BASE}{p}\n' for p in PATHS.values()))
 
 # security.txt (RFC 9116). Expires is reset on every build, so rebuild and push at least once a year or it
 # goes stale. Contact is the support mailbox; point it at a security@ alias once one exists in Zoho.
