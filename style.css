@@ -248,6 +248,8 @@ code { font: 500 .86em 'IBM Plex Mono', monospace; color: var(--ink); background
 }
 @media (max-width: 600px) {
   .fbub { padding: 26px 20px 22px; }
+  .sechead { padding: 28px 20px; }
+  .scard { padding: 24px 20px; }
   .fbub .pts li + li { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); margin-top: 16px; padding-top: 16px; }
   .fbub .pts li { padding-right: 0; flex-basis: 100%; }
   .moves { grid-template-columns: 1fr; gap: 0; }
@@ -263,7 +265,7 @@ code { font: 500 .86em 'IBM Plex Mono', monospace; color: var(--ink); background
   .pt-name { font-size: 13px; margin-top: 4px; }
   .pt-go { display: none; }
   .ptile .pcup { width: 78%; }
-  .pstage { padding: 18px 18px 20px; flex-direction: column-reverse; align-items: flex-start; gap: 4px; }
+  .pstage { padding: 20px 20px 22px; flex-direction: column-reverse; align-items: flex-start; gap: 4px; }
   .pd-cup { width: 128px; height: 128px; align-self: center; }
   .pstage h3 { font-size: 20px; }
   .pstage p:not(.tier) { font-size: 15.5px; }
