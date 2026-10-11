@@ -229,7 +229,7 @@ code { font: 500 .86em 'IBM Plex Mono', monospace; color: var(--ink); background
 .sgrid.two .scard.del { grid-template-columns: 1fr; gap: 24px; }
 .sgrid.two .scard:not(.del) p { margin: 0 0 14px; font-size: 15.5px; }
 @media (max-width: 900px) { .sgrid { grid-template-columns: 1fr 1fr; } .scard.del { grid-template-columns: 1fr; gap: 24px; } .steps { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 600px) { .sgrid, .sgrid.two, .steps { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .sgrid, .sgrid.two, .steps { grid-template-columns: 1fr; } .steps li { padding: 18px 20px; } }
 
 @media (max-width: 820px) {
   header .wrap { row-gap: 4px; padding-top: 10px; }
@@ -274,7 +274,7 @@ code { font: 500 .86em 'IBM Plex Mono', monospace; color: var(--ink); background
   .meta { grid-template-columns: 1fr; }
   .cards thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   .cards table, .cards tbody { display: block; }
-  .cards tr { display: block; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-card); padding: 15px 16px 16px; margin: 0 0 10px; }
+  .cards tr { display: block; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-card); padding: 16px 20px 18px; margin: 0 0 10px; }
   .cards td { display: block; padding: 0; border: 0; }
   .cards td[data-k=name] { color: var(--ink); font-size: 16px; font-weight: 600; }
   .cards td[data-k=milk] { margin-top: 12px; }
