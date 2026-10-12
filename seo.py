@@ -101,9 +101,9 @@ def drinks_table(drinks):
             f'</tr></thead><tbody>{rows}</tbody></table></div>')
 
 
-def head(kicker, title, lead, wm):
+def head(kicker, title, lead, wm, root='../'):
     """The glass page head: kicker, h1 and lead on a panel in the page colour, with a faint pattern as watermark."""
-    return (f'<div class="pagehead"><img class="wm" src="../patterns/{wm}.webp" width="480" height="480" alt="">'
+    return (f'<div class="pagehead"><img class="wm" src="{root}patterns/{wm}.webp" width="480" height="480" alt="">'
             f'<p class="kicker">{kicker}</p>\n<h1>{title}</h1>\n<p class="lead">{lead}</p></div>')
 
 

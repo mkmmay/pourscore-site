@@ -11,6 +11,7 @@ import json
 import re
 from pathlib import Path
 
+import blog
 import markdown
 import seo
 from parts import SUBS, header_stores
@@ -37,6 +38,10 @@ BASE = 'https://pourscoreapp.com/'
 GOOGLE_VERIFY = 'OoHxtDR82EIO0-OP8ReTyXgVBRHtZ3T2AelK3DLApL4'
 PATHS = {'home': '', 'features': 'features/', 'support': 'support/', 'privacy': 'privacy/', 'terms': 'terms/', 'security': 'security/',
          'patterns': seo.HUB, 'learn': seo.LEARN}
+POSTS = blog.load()
+if POSTS:  # /tips/ exists only once there is a published post
+    PATHS['tips'] = blog.HUB
+    PATHS.update({f'tip-{p["slug"]}': f'{blog.HUB}{p["slug"]}/' for p in POSTS})
 PATTERNS, ORDER = seo.load()
 SUBS['{pattern_tiles}'] = seo.tiles(PATTERNS, ORDER, '../latte-art-patterns/')
 SUBS['{cupdefs}'] = f'<svg class="cupdefs" width="0" height="0" aria-hidden="true" focusable="false">{seo.CUP_DEFS}</svg>'
@@ -93,7 +98,7 @@ def page(title, desc, body, current, root, wide=False, ld=(), tab=None):
 {close_}</main>
 <footer><div class="wrap">
 <span>&copy; 2026 Pour Score. Marlon Kazim May, trading as Pour Score.</span>
-<span><a href="{root}{seo.HUB}">Patterns</a> &middot; <a href="{root}{seo.LEARN}">Learn latte art</a> &middot; <a href="{root}features/">Features</a> &middot; <a href="{root}support/">Support</a> &middot; <a href="{root}privacy/">Privacy</a> &middot; <a href="{root}terms/">Terms</a> &middot; <a href="{root}security/">Security</a></span>
+<span><a href="{root}{seo.HUB}">Patterns</a> &middot; <a href="{root}{seo.LEARN}">Learn latte art</a> &middot; {'<a href="' + root + blog.HUB + '">Tips</a> &middot; ' if POSTS else ''}<a href="{root}features/">Features</a> &middot; <a href="{root}support/">Support</a> &middot; <a href="{root}privacy/">Privacy</a> &middot; <a href="{root}terms/">Terms</a> &middot; <a href="{root}security/">Security</a></span>
 <span><a href="https://www.instagram.com/pourscoreapp/" rel="me noopener">Instagram</a> &middot; <a href="https://www.tiktok.com/@pourscoreapp" rel="me noopener">TikTok</a></span>
 </div></footer>
 {tail}
@@ -220,6 +225,10 @@ def esc_attr(s):
 
 write(seo.HUB, 'patterns', '../', seo.patterns_page(PATTERNS, ORDER))
 write(seo.LEARN, 'learn', '../', seo.learn_page(), 'learn')
+if POSTS:
+    write(blog.HUB, 'tips', '../', blog.index_page(POSTS), 'learn')
+    for _p in POSTS:
+        write(f'{blog.HUB}{_p["slug"]}/', f'tip-{_p["slug"]}', '../../', blog.post_page(_p), 'learn')
 _s = support_cards('../')
 (HERE / 'support').mkdir(exist_ok=True)
 (HERE / 'support' / 'index.html').write_text(page(

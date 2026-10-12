@@ -21,6 +21,7 @@ Adults (18+) with an espresso machine and a jug of milk, from new machine owners
 - [Home](https://pourscoreapp.com/): what Pour Score is and how it works
 - [Latte art patterns](https://pourscoreapp.com/latte-art-patterns/): the nine patterns in learning order, each with its tier
 - [Learn latte art at home](https://pourscoreapp.com/learn-latte-art/): a guide for the home barista: kit, typical milk per drink, where to start, practice and common questions. States plainly that Pour Score is not a course, qualification or live class
+- [Latte art tips](https://pourscoreapp.com/tips/): one short, practical tip a week for the home barista, each answering a single question such as why a heart has a fat line through it
 - [Support](https://pourscoreapp.com/support/): how to contact Pour Score, report a security problem and delete your account
 - [Features](https://pourscoreapp.com/features/): guided pours, live tilt, dry rehearsal, milk lessons, progress and streaks
 - [Privacy Policy](https://pourscoreapp.com/privacy/)
