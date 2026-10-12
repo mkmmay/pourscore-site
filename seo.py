@@ -164,7 +164,7 @@ def patterns_page(pats, order):
     moves = ''.join(f'<li><span class="mv-n">{i:02d}</span><b>{esc(t)}</b><span class="mv-t">{esc(c)}</span></li>' for i, (t, c) in enumerate(parts, 1))
     lead = 'Nine coffee art patterns, grouped by the tier Pour Score teaches them in. Tap one to see what it is.'
     body = f'''<svg class="cupdefs" width="0" height="0" aria-hidden="true" focusable="false">{CUP_DEFS}</svg>
-{head('Pour Score &middot; Patterns', "Latte art patterns, from monk's head to swan", lead, 'swan')}
+{head('Pour Score &middot; Patterns', "Latte art designs and patterns, from monk's head to swan", lead, 'swan')}
 <h2>The nine latte art patterns</h2>
 <ul class="pgrid">{tiles(pats, order, '')}</ul>
 <div class="pdetails">{details}</div>
@@ -175,8 +175,8 @@ def patterns_page(pats, order):
 <p class="how-foot">In Pour Score the path is drawn across your cup and timed for you.</p></section>
 <p>New to all of this? Read <a href="../{LEARN}">learn latte art at home</a> first.</p>
 {CTA}'''
-    desc = "Nine coffee art patterns in learning order, from monk's head to swan, with a how-to for the latte art heart."
-    return ('Latte Art Patterns: Heart, Rosetta, Tulip, Swan | Pour Score', desc, body, crumbs(('Home', ''), ('Latte art patterns', HUB)))
+    desc = "Nine latte art designs in learning order, from monk's head to swan, with a how-to for the latte art heart."
+    return ('Latte Art Designs and Patterns: Heart to Swan | Pour Score', desc, body, crumbs(('Home', ''), ('Latte art patterns', HUB)))
 
 
 def faq():
