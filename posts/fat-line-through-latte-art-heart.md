@@ -1,6 +1,6 @@
 title: Why Your Latte Art Heart Has a Fat Line Through It
 description: A thick line down the middle of a latte art heart has one cause. Here is what causes it and how to draw a thin, straight line instead.
-date: 2026-10-14
+date: 2026-10-12
 art: heart
 ---
 You pour a good, round white shape, pull through it, and the line comes out wide and blurry. The heart looks more like a split than a heart.
