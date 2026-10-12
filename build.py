@@ -52,7 +52,8 @@ def page(title, desc, body, current, root, wide=False, ld=(), tab=None):
     tail = f'<script src="{root}{v("site.js")}" defer></script>'
     if current in PATHS:
         url = BASE + PATHS[current]
-        share = (f'<link rel="canonical" href="{url}">\n'
+        share = (f'<meta name="robots" content="index,follow,max-image-preview:large">\n'
+                 f'<link rel="canonical" href="{url}">\n'
                  f'<meta property="og:type" content="website">\n<meta property="og:site_name" content="Pour Score">\n'
                  f'<meta property="og:title" content="{title}">\n<meta property="og:description" content="{desc}">\n'
                  f'<meta property="og:url" content="{url}">\n<meta property="og:image" content="{BASE}og.png">\n'
@@ -74,7 +75,8 @@ def page(title, desc, body, current, root, wide=False, ld=(), tab=None):
 <title>{title}</title>
 <meta name="description" content="{desc}">
 <meta name="google-site-verification" content="{GOOGLE_VERIFY}">
-{share}<link rel="icon" href="{root}favicon.png">
+{share}<link rel="icon" href="{root}favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" href="{root}favicon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="{root}apple-touch-icon.png">
 <link rel="stylesheet" href="{root}{v("style.css")}">
 {extra}
@@ -82,7 +84,7 @@ def page(title, desc, body, current, root, wide=False, ld=(), tab=None):
 <body class="{'wide' if wide else 'sub' + (' t-' + tab if tab else '')}">
 <a class="skip" href="#main">Skip to main content</a>
 <header><div class="wrap">
-<a class="brand" href="{root}"><img src="{root}favicon.png" alt="">Pour Score</a>
+<a class="brand" href="{root}"><img src="{root}favicon.png" width="28" height="28" alt="">Pour Score</a>
 <nav>{nav}</nav>
 {stores}
 </div></header>

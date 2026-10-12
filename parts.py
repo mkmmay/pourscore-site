@@ -32,7 +32,7 @@ def phone(inner):
 
 
 def row_img(n, name, sub, tag, green):
-    return (f'<div class="row"><img src="patterns/{n}.png" alt="">'
+    return (f'<div class="row"><img src="patterns/s/{n}.webp" width="32" height="32" alt="">'
             f'<span><b>{name}</b><i>{sub}</i></span><span class="tag{" g" if green else ""}">{tag}</span></div>')
 
 

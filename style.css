@@ -24,6 +24,7 @@ body.t-privacy { --tab: 120, 160, 100; --tabtext: #BCCAAA; }                    
 body.t-terms { --tab: 150, 110, 190; --tabtext: #CAB3D3; }                      /* lavender */
 body.sub:not([class*=" t-"]) { --tabtext: #F4A486; }  /* orange pages (404): a light orange, because the accent is only 3:1 on its own glow */
 * { box-sizing: border-box; }
+img { height: auto; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;

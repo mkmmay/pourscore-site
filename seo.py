@@ -103,7 +103,7 @@ def drinks_table(drinks):
 
 def head(kicker, title, lead, wm):
     """The glass page head: kicker, h1 and lead on a panel in the page colour, with a faint pattern as watermark."""
-    return (f'<div class="pagehead"><img class="wm" src="../patterns/{wm}.png" alt="">'
+    return (f'<div class="pagehead"><img class="wm" src="../patterns/{wm}.webp" width="480" height="480" alt="">'
             f'<p class="kicker">{kicker}</p>\n<h1>{title}</h1>\n<p class="lead">{lead}</p></div>')
 
 
@@ -113,7 +113,7 @@ def ladder(tier):
     return '<span class="lad" aria-hidden="true">' + ''.join(f'<i class="{"on" if j == i else "done" if j < i else ""}"></i>' for j in range(5)) + '</span>'
 
 
-CTA = '''<section class="final"><img class="l" src="../patterns/rosetta.png" alt=""><img class="r" src="../patterns/heart.png" alt="">
+CTA = '''<section class="final"><img class="l" src="../patterns/rosetta.webp" width="480" height="480" alt=""><img class="r" src="../patterns/heart.webp" width="480" height="480" alt="">
 <div class="inner"><h2>Practise it with Pour Score</h2>
 <p>Pour Score draws the path across your cup in time with the pour and shows your jug angle live. Rehearse the movement with an empty jug first, then pour. Join the early access list to try it before launch.</p>
 <a class="btn" href="../#start">Get early access</a></div></section>'''
@@ -130,7 +130,7 @@ def tiles(pats, order, prefix=''):
         name, n = esc(pats[k]['name']), TIERS.index(pats[k]['tier'])
         out += (f'<li><a class="ptile" href="{prefix}#{slug(k)}" data-tier="{n + 1}"><span class="pt-tier">Tier {n + 1}</span>'
                 f'<span class="pt-name">{name}</span><span class="pcup"><svg viewBox="0 0 400 400" aria-hidden="true">{CUP_BODY}</svg>'
-                f'<img src="../patterns/{k}.png" width="480" height="480" alt="The {name} latte art pattern" loading="lazy"></span>'
+                f'<img src="../patterns/{k}.webp" width="480" height="480" alt="The {name} latte art pattern" loading="lazy"></span>'
                 f'<span class="pt-go" aria-hidden="true">{ARROW}</span></a></li>')
     return out
 
@@ -158,7 +158,7 @@ def patterns_page(pats, order):
                     f'<span class="ml">Tier {n + 1} of 5 &middot; {p["tier"]}</span></p><h3>{name}</h3><p>{esc(p["blurb"])}</p>'
                     f'<p class="teach">{more}</p><a class="btn sm" href="../#start">Get early access</a></div>'
                     f'<div class="pcup pd-cup"><svg viewBox="0 0 400 400" aria-hidden="true">{CUP_BODY}{extra}</svg>'
-                    f'<img src="../patterns/{k}.png" width="480" height="480" alt="" loading="lazy"></div></section>')
+                    f'<img src="../patterns/{k}.webp" width="480" height="480" alt="" loading="lazy"></div></section>')
     h = pats['heart']
     parts = [('Lay the base', f"Fill the cup to about {h['canvas']}% first.")] + [(lab.capitalize(), cue) for lab, cue in h['phases']]
     moves = ''.join(f'<li><span class="mv-n">{i:02d}</span><b>{esc(t)}</b><span class="mv-t">{esc(c)}</span></li>' for i, (t, c) in enumerate(parts, 1))
