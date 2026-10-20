@@ -3,6 +3,8 @@ description: You don't need a fridge full of milk to get better at latte art. Th
 date: 2026-10-15
 art: rosetta
 ---
+**You can practise latte art without wasting milk by rehearsing the movement with an empty jug, drilling the wiggle on its own, or pouring something that is not milk.**
+
 Every pour costs milk, and most early pours end up down the sink. After a week of that, it's hard not to feel a bit wasteful.
 
 Here's the thing, though. Most of what goes wrong isn't the milk. It's your hand. The height, the speed, the moment you stop. And your hand can learn all of that without any milk at all.

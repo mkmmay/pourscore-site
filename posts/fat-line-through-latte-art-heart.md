@@ -3,6 +3,8 @@ description: A thick line down the middle of a latte art heart has one cause. He
 date: 2026-10-12
 art: heart
 ---
+**A fat line through a latte art heart is almost always a height problem: the spout was too close to the surface when you drew through, so lift higher and draw the line faster.**
+
 You pour a good, round white shape, pull through it, and the line comes out wide and blurry. The heart looks more like a split than a heart.
 
 The line is not a milk problem and it is not a wrist problem. It is almost always a height problem.

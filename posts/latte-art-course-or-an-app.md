@@ -3,6 +3,8 @@ description: Thinking about an online latte art course? Here is what a course gi
 date: 2026-10-12
 art: tulip
 ---
+**Choose a class if you want a person to watch you pour, and choose an app like Pour Score if you have your own machine and want to practise at home most days.**
+
 If you search for a latte art course, you will find video courses, live classes and certificate programmes. Some are short, some are long, and some are free. An app is a different thing, and it suits a different person. Here is how to tell which one you need.
 
 ## What a course gives you
