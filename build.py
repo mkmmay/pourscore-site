@@ -37,7 +37,7 @@ BASE = 'https://pourscoreapp.com/'
 # Search Console ownership, second method (the first is googlecc591ae8fcff4c2f.html in the site root). Keep both.
 GOOGLE_VERIFY = 'OoHxtDR82EIO0-OP8ReTyXgVBRHtZ3T2AelK3DLApL4'
 PATHS = {'home': '', 'features': 'features/', 'support': 'support/', 'privacy': 'privacy/', 'terms': 'terms/', 'security': 'security/',
-         'patterns': seo.HUB, 'learn': seo.LEARN}
+         'patterns': seo.HUB, 'learn': seo.LEARN, 'faq': seo.FAQ}
 POSTS = blog.load()
 if POSTS:  # /tips/ exists only once there is a published post
     PATHS['tips'] = blog.HUB
@@ -98,7 +98,7 @@ def page(title, desc, body, current, root, wide=False, ld=(), tab=None):
 {close_}</main>
 <footer><div class="wrap">
 <span>&copy; 2026 Pour Score. Marlon Kazim May, trading as Pour Score.</span>
-<span><a href="{root}{seo.HUB}">Patterns</a> &middot; <a href="{root}{seo.LEARN}">Learn latte art</a> &middot; {'<a href="' + root + blog.HUB + '">Tips</a> &middot; ' if POSTS else ''}<a href="{root}features/">Features</a> &middot; <a href="{root}support/">Support</a> &middot; <a href="{root}privacy/">Privacy</a> &middot; <a href="{root}terms/">Terms</a> &middot; <a href="{root}security/">Security</a></span>
+<span><a href="{root}{seo.HUB}">Patterns</a> &middot; <a href="{root}{seo.LEARN}">Learn latte art</a> &middot; <a href="{root}{seo.FAQ}">Questions</a> &middot; {'<a href="' + root + blog.HUB + '">Tips</a> &middot; ' if POSTS else ''}<a href="{root}features/">Features</a> &middot; <a href="{root}support/">Support</a> &middot; <a href="{root}privacy/">Privacy</a> &middot; <a href="{root}terms/">Terms</a> &middot; <a href="{root}security/">Security</a></span>
 <span><a href="https://www.instagram.com/pourscoreapp/" rel="me noopener">Instagram</a> &middot; <a href="https://www.tiktok.com/@pourscoreapp" rel="me noopener">TikTok</a></span>
 </div></footer>
 {tail}
@@ -225,6 +225,7 @@ def esc_attr(s):
 
 write(seo.HUB, 'patterns', '../', seo.patterns_page(PATTERNS, ORDER))
 write(seo.LEARN, 'learn', '../', seo.learn_page(), 'learn')
+write(seo.FAQ, 'faq', '../', seo.faq_page(), 'learn')
 if POSTS:
     write(blog.HUB, 'tips', '../', blog.index_page(POSTS), 'learn')
     for _p in POSTS:

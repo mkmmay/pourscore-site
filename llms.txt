@@ -1,6 +1,6 @@
 # Pour Score
 
-> Pour Score is a latte art coach app for home baristas. It guides each pour step by step, shows the angle of your jug live, and takes you from your first heart to a swan. It is in early access and launching on the App Store and Google Play.
+> Pour Score is a latte art coach app for home baristas. It guides each pour step by step, shows the angle of your jug live, and takes you from your first heart to a swan. It is in early access, with a UK launch on the App Store planned. For adults (18+).
 
 ## What it does
 
@@ -9,8 +9,12 @@
 - Dry rehearsal: practise the hand movement with an empty jug, so no milk is wasted.
 - Perfect your milk: short lessons on stretching, texture and swirling milk, with fixes for beige milk, big bubbles and thin foam.
 - Nine latte art patterns, in the order the app teaches them: monk's head, heart, tulip, rippled heart, rosetta, stacked tulip, swan, etched animals and stacked rosetta.
-- Pour log with a photo, a streak and five tiers: Beginner, Home Pourer, Confident, Café Ready and Barista. Tiers are earned from real pours.
+- Pour log with a photo, a streak and five tiers: Beginner, Home Pourer, Confident, Café Ready and Barista. Tiers unlock as you log pours.
 - Coaching that fits your kit: set up your coffee station once and the guide fits your jug and cup.
+
+## What it is not
+
+Pour Score is not a video course, a qualification or a live class, and it does not cover espresso extraction or running a café bar. It is a practice coach for milk and latte art at home.
 
 ## Who it is for
 
@@ -21,6 +25,7 @@ Adults (18+) with an espresso machine and a jug of milk, from new machine owners
 - [Home](https://pourscoreapp.com/): what Pour Score is and how it works
 - [Latte art patterns](https://pourscoreapp.com/latte-art-patterns/): the nine patterns in learning order, each with its tier
 - [Learn latte art at home](https://pourscoreapp.com/learn-latte-art/): a guide for the home barista: kit, typical milk per drink, where to start, practice and common questions. States plainly that Pour Score is not a course, qualification or live class
+- [Questions answered](https://pourscoreapp.com/faq/): short answers on learning latte art at home, practising without wasting milk, steaming milk, which pattern to learn first, and course or app
 - [Latte art tips](https://pourscoreapp.com/tips/): one short, practical tip a week for the home barista, each answering a single question such as why a heart has a fat line through it
 - [Support](https://pourscoreapp.com/support/): how to contact Pour Score, report a security problem and delete your account
 - [Features](https://pourscoreapp.com/features/): guided pours, live tilt, dry rehearsal, milk lessons, progress and streaks

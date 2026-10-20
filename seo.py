@@ -17,6 +17,7 @@ MILK_TS = TS.parent / 'milk.ts'
 BASE = 'https://pourscoreapp.com/'
 HUB = 'latte-art-patterns/'
 LEARN = 'learn-latte-art/'
+FAQ = 'faq/'
 NB = ' '  # keeps '100 ml' on one line in narrow tables
 LEVELS = {'beginner': 'Beginner', 'home_pourer': 'Home Pourer', 'confident': 'Confident', 'cafe_ready': 'Café Ready', 'barista': 'Barista'}
 TIERS = list(LEVELS.values())  # lowest tier first, used for the tier ladder
@@ -168,7 +169,7 @@ def patterns_page(pats, order):
 <h2>The nine latte art patterns</h2>
 <ul class="pgrid">{tiles(pats, order, '')}</ul>
 <div class="pdetails">{details}</div>
-<p>Pour Score groups the nine patterns into five tiers: Beginner, Home Pourer, Confident, Café Ready and Barista. Each tier is earned from real pours.</p>
+<p>Pour Score groups the nine patterns into five tiers: Beginner, Home Pourer, Confident, Café Ready and Barista. Each tier unlocks as you log pours.</p>
 <section class="fbub how" id="how-to-pour-a-heart"><span class="num">Free guide</span><h2>How to pour a heart</h2>
 <p>A free guide to your first latte art heart, in three moves.</p>
 <ol class="moves">{moves}</ol>
@@ -195,11 +196,11 @@ def faq():
          "Your phone knows its own angle. Rest it against the jug or the cup and Pour Score shows the angle live in degrees, turning green when you are in range for that phase of the pour. "
          "A jug height rail shows when to pull away and when to get close."),
         ('How do the five tiers work?',
-         "Pour Score has five tiers: Beginner, Home Pourer, Confident, Café Ready and Barista. Each one is earned from real pours, so you cannot skip ahead "
-         "and you cannot be ranked against anyone. Your tier moves when your pours do."),
+         "Pour Score has five tiers: Beginner, Home Pourer, Confident, Café Ready and Barista. Each one unlocks as you log pours, and you cannot be ranked against anyone. "
+         "Your tier moves when your pours do."),
         ('Is Pour Score available now?',
          "Pour Score is in early access. <a href=\"../#start\">Leave your email on the home page</a> and we will invite you to try it before launch, "
-         "and tell you when it is on the App Store and Google Play."),
+         "and tell you when it is on the App Store."),
     ]
 
 
@@ -219,7 +220,7 @@ def learn_page():
 <h2>Steam the milk first</h2>
 <p>Texture decides whether a pattern holds. Pour Score's milk chapters cover stretching, texture and swirling, with fixes for beige milk, big bubbles and thin foam.</p>
 <h2>Which latte art pattern to learn first</h2>
-<p>Pour Score teaches nine patterns across five tiers, from the <a href="{pat('dot')}">monk's head</a> to the <a href="{pat('swan')}">swan</a>, each tier earned from real pours. See <a href="../{HUB}">all nine latte art patterns</a> and the tier each one belongs to.</p>
+<p>Pour Score teaches nine patterns across five tiers, from the <a href="{pat('dot')}">monk's head</a> to the <a href="{pat('swan')}">swan</a>, each tier unlocked as you log pours. See <a href="../{HUB}">all nine latte art patterns</a> and the tier each one belongs to.</p>
 <h2>Practise without wasting milk</h2>
 <p>For latte art practice that costs no milk, rehearse the movement dry. In Pour Score's dry rehearsal a trace scrolls down the screen and you mirror it with an empty jug, so you can practise the rocking and the pull-through before you steam any milk. Rehearse in the evening, pour in the morning.</p>
 <h2>Common questions</h2>
@@ -228,6 +229,19 @@ def learn_page():
         {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': strip(a)}} for q, a in qs]}
     desc = 'Learn latte art at home: what a home barista needs, how much milk each drink takes, where to start and how to practise without wasting milk.'
     return "Learn Latte Art at Home: A Home Barista's Guide | Pour Score", desc, body, [ld, crumbs(('Home', ''), ('Learn latte art at home', LEARN))]
+
+
+def faq_page():
+    """(title, description, body, json-ld) for faq/ (root ../). Nine short answers, data in faq.json, each linking to the full guide."""
+    import json
+    qs = json.loads((Path(__file__).parent / 'faq.json').read_text())
+    items = ''.join(f"<h2>{esc(x['q'])}</h2>\n<p>{x['a']}</p>\n<p>{x['link']}</p>\n" for x in qs)
+    lead = 'Short answers for home baristas. Each links to the page with the full guide.'
+    body = f"{head('Pour Score &middot; Questions', 'Latte art questions, answered', lead, 'heart')}\n{items}{CTA}"
+    ld = {'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
+        {'@type': 'Question', 'name': x['q'], 'acceptedAnswer': {'@type': 'Answer', 'text': strip(x['a'])}} for x in qs]}
+    desc = 'Plain answers to common latte art questions: learning at home, practising without wasting milk, steaming milk, which pattern first, and course or app.'
+    return 'Latte Art Questions Answered for Home Baristas | Pour Score', desc, body, [ld, crumbs(('Home', ''), ('Questions answered', FAQ))]
 
 
 def home_ld():
