@@ -187,7 +187,7 @@
     if (!f.consent.checked) return say('Please tick the box to join the list.');
     btn.disabled = true; say('Sending...');
     fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: d.get('email'), consent: true, website: d.get('website') }) })
+      body: JSON.stringify({ email: d.get('email'), consent: true, tips: f.tips.checked, website: d.get('website') }) })
       .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
       .then(function (r) {
         if (r.ok) { f.reset(); say('Nearly done. We have sent you an email. Click the link in it to confirm and you are on the list.'); }

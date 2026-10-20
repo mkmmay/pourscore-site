@@ -20,9 +20,9 @@ HERE = Path(__file__).parent
 LEGAL = HERE.parent / 'Legal Docs' / 'extracted'
 SUPPORT = 'support@pourscoreapp.com'
 LEGAL_EMAIL = 'legal@pourscoreapp.com'
-# The one postal address shown on the site and in both legal pages ({{ADDRESS}}). Use a service address
-# that accepts legal and recorded mail, not a home address. Keep it identical to the ICO register entry and
-# to the POSTAL_ADDRESS secret on the waitlist function.
+# The one postal address shown on the site and in both legal pages ({{ADDRESS}}). Owner decision 19 Oct 2026:
+# ALL addresses are 168a Battersea Park Road (service, public, EU trader, ICO entry, waitlist footer, store
+# listing). Keep it identical to the ICO register entry and to the POSTAL_ADDRESS secret on the waitlist function.
 ADDRESS = '168a Battersea Park Road, London, SW11 4ND, United Kingdom'
 if not ADDRESS:
     raise SystemExit('Set ADDRESS in build.py before building.')
