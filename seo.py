@@ -193,8 +193,7 @@ def faq():
          "In everyday use the two terms mean the same thing: patterns made with steamed milk on an espresso drink, such as a heart, a tulip or a rosetta. "
          "Pour Score teaches poured patterns first and finishes with etched designs such as a bear, a kitten or a seahorse."),
         ('How does the live tilt reading work?',
-         "Your phone knows its own angle. Rest it against the jug or the cup and Pour Score shows the angle live in degrees, turning green when you are in range for that phase of the pour. "
-         "A jug height rail shows when to pull away and when to get close."),
+         "Your phone knows its own angle. Rest it against the jug or the cup and Pour Score shows the angle live in degrees, turning green when you are in range for that phase of the pour."),
         ('How do the five tiers work?',
          "Pour Score has five tiers: Beginner, Home Pourer, Confident, Café Ready and Barista. Each one unlocks as you log pours, and you cannot be ranked against anyone. "
          "Your tier moves when your pours do."),
