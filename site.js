@@ -36,6 +36,16 @@
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // FAQ: each question and its answer fold into a details row, the first one open. The text stays in the page.
+  if (/\/faq\/(index\.html)?$/.test(location.pathname)) {
+    document.querySelectorAll('main .wrap > h2').forEach(function (h, i) {
+      var d = document.createElement('details'), s = document.createElement('summary'), n;
+      d.className = 'qa'; d.open = i === 0;
+      h.parentNode.insertBefore(d, h); s.appendChild(h); d.appendChild(s);
+      while ((n = d.nextSibling) && (n.nodeType === 3 || n.nodeName === 'P')) d.appendChild(n);
+    });
+  }
+
   // Phone mockups: the streak grid fills and progress bars sweep in each time a phone scrolls into view.
   if ('IntersectionObserver' in window) {
     var po = new IntersectionObserver(function (es) {

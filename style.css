@@ -288,3 +288,14 @@ code { font: 500 .86em 'IBM Plex Mono', monospace; color: var(--ink); background
   .js .pcup img, .js .pcup.in img { opacity: .96; clip-path: none; transition: none; }
   .hs, .btn { transition: none; }
 }
+
+/* FAQ rows: site.js folds each question and its answer into a details row (Watermelon UI accordion, rebuilt in CSS). Without JS every answer shows. */
+details.qa { border-top: 1px solid var(--line); }
+details.qa:last-of-type { border-bottom: 1px solid var(--line); }
+details.qa summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; }
+details.qa summary::-webkit-details-marker { display: none; }
+details.qa summary h2 { margin: 0; font-size: 19px; }
+details.qa summary::after { content: "+"; flex: none; font: 500 20px/1 'IBM Plex Mono', monospace; color: var(--tabtext); }
+details.qa[open] summary::after { content: "\2212"; }
+details.qa summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+details.qa > p:last-child { margin-bottom: 20px; }
