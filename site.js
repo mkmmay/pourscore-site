@@ -3,7 +3,8 @@
   var rv = document.querySelectorAll('.rv');
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      var n = 0; // siblings that arrive together enter 60ms apart
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.style.transitionDelay = (n++ * 60) + 'ms'; e.target.classList.add('in'); io.unobserve(e.target); } });
     }, { threshold: 0.15 });
     rv.forEach(function (el) { io.observe(el); });
   } else rv.forEach(function (el) { el.classList.add('in'); });
@@ -85,7 +86,7 @@
   // Pattern grid: tap a tile and its glass box opens under that tile's row (three tiles a row). The nine boxes stay in the page.
   var grid = document.querySelector('.pgrid');
   if (grid && grid.querySelector('.ptile').getAttribute('href').charAt(0) === '#') {
-    var tiles = [].slice.call(grid.querySelectorAll('.ptile')), panel = document.createElement('li'), shown = null;
+    var tiles = [].slice.call(grid.querySelectorAll('.ptile')), panel = document.createElement('li'), shown = null, opened = false;
     panel.className = 'pstage'; panel.setAttribute('aria-live', 'polite');
     var show = function (i) {
       if (shown) shown.removeAttribute('aria-current');
@@ -93,6 +94,7 @@
       panel.innerHTML = document.getElementById(shown.getAttribute('href').slice(1)).innerHTML;
       var last = Math.min(tiles.length - 1, i - (i % 3) + 2);
       grid.insertBefore(panel, tiles[last].parentNode.nextSibling);
+      panel.classList.toggle('again', opened); opened = true; // the Heart trace plays on the first open only
       panel.classList.remove('in'); void panel.offsetWidth; panel.classList.add('in');
     };
     var fromHash = function () {

@@ -36,7 +36,8 @@ body.wide main { padding: 0; }
 .steam { position: absolute; inset: 0; pointer-events: none; }
 .tile { position: absolute; width: 16%; aspect-ratio: 1; border-radius: 22%; background: var(--milk); border: 0; padding: 0; cursor: pointer; box-shadow: 0 14px 28px rgba(0,0,0,.4); display: grid; place-items: center; transition: transform .4s cubic-bezier(.3,.7,.2,1), background .3s; }
 .tile img { width: 76%; filter: invert(1) brightness(.18) sepia(.5); }
-.tile:hover { transform: translateY(-6px) rotate(var(--r)) scale(1.06); }
+@media (hover:hover) and (pointer:fine) { .tile:hover { transform: translateY(-6px) rotate(var(--r)) scale(1.06); } }
+.tile:active { transform: rotate(var(--r)) scale(.96); transition-duration: .12s; }
 .tile[aria-pressed=true] { background: var(--accent); transform: translateY(-10px) rotate(var(--r)) scale(1.1); }
 .tile[aria-pressed=true] img { filter: brightness(0) ; }
 .tile { transform: rotate(var(--r)); }
@@ -114,7 +115,8 @@ body.wide main { padding: 0; }
 /* feature cards */
 .cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
 .fcard { display: flex; flex-direction: column; border: 1px solid transparent; border-radius: var(--r-feature); padding: 26px; text-decoration: none; color: var(--ink2); min-height: 260px; transition: transform .3s, box-shadow .3s; }
-.fcard:hover { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(228,87,46,.2); }
+@media (hover:hover) and (pointer:fine) { .fcard:hover { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(228,87,46,.2); } }
+.js .fcard:active, .store:active { transform: scale(.97); transition-duration: .12s; }
 .fcard .ic svg { width: 24px; height: 24px; stroke: var(--accent); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .fcard h3 { color: var(--ink); font-size: 22px; margin: 0 0 8px; letter-spacing: -.01em; }
 .fcard p { margin: 0 0 auto; font-size: 15.5px; }
@@ -131,7 +133,7 @@ body.wide main { padding: 0; }
 .rung.done { border-color: rgba(228,87,46,.3); }
 .rung.on .mono, .rung.done .mono { color: var(--accent); }
 /* bars start short and rise to their height, one after another, when the ladder scrolls in */
-.js .ladder .rung { height: 52px; transition: height .9s cubic-bezier(.2,.9,.3,1.12) var(--d), border-color .5s; }
+.js .ladder .rung { height: 52px; transition: height .6s cubic-bezier(.16,1,.3,1) var(--d), border-color .5s; }
 .js .ladder.in .rung:nth-child(1) { height: var(--h1); } .js .ladder.in .rung:nth-child(2) { height: var(--h2); } .js .ladder.in .rung:nth-child(3) { height: var(--h3); } .js .ladder.in .rung:nth-child(4) { height: var(--h4); } .js .ladder.in .rung:nth-child(5) { height: var(--h5); }
 .tier-cap { display: none; }
 .rung b { display: block; color: var(--ink); font-size: 19px; margin: 6px 0; }
@@ -154,7 +156,7 @@ body.wide main { padding: 0; }
 .feat > .pgrid { margin-top: 18px; }
 
 /* reveal */
-.js .rv { opacity: 0; transform: translateY(28px); transition: opacity .8s, transform .8s cubic-bezier(.2,.8,.2,1); }
+.js .rv { opacity: 0; transform: translateY(16px); transition: opacity .5s cubic-bezier(.23,1,.32,1), transform .5s cubic-bezier(.23,1,.32,1); }
 .js .rv.in { opacity: 1; transform: none; }
 
 
