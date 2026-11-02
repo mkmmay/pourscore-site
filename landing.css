@@ -246,3 +246,12 @@ body.wide main { padding: 0; }
 
 .ea.done > p:not(.ea-msg), .ea.done .ea-row, .ea.done .ea-consent { display: none; }
 .ea.done .ea-msg { font-size: 17px; font-weight: 500; }
+
+/* Dry rehearsal phone: the white trace draws down the guide and the dot rides its tip. Only runs while the phone is on screen (.go). */
+.rtrace { stroke-dasharray: .62 2; stroke-dashoffset: 0; }
+.rdot { offset-path: path("M100 0 C 140 20, 60 40, 140 60 S 60 100, 140 120 S 100 150, 100 170 L100 245"); offset-distance: 62%; }
+.phone.go .rtrace { animation: rdraw 6s cubic-bezier(.45,0,.25,1) infinite; }
+.phone.go .rdot { animation: rride 6s cubic-bezier(.45,0,.25,1) infinite; }
+@keyframes rdraw { 0% { stroke-dasharray: 0 2; } 78%, 94% { stroke-dasharray: 1 2; } 100% { stroke-dasharray: 1 2; opacity: 0; } }
+@keyframes rride { 0% { offset-distance: 0%; opacity: 1; } 78%, 94% { offset-distance: 100%; opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .phone.go .rtrace, .phone.go .rdot { animation: none; } }

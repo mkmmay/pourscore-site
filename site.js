@@ -50,10 +50,24 @@
   // Phone mockups: the streak grid fills and progress bars sweep in each time a phone scrolls into view.
   if ('IntersectionObserver' in window) {
     var po = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { e.target.classList.toggle('go', e.isIntersecting); });
+      es.forEach(function (e) { e.target.classList.toggle('go', e.isIntersecting); e.target._on = e.isIntersecting; });
     }, { threshold: 0.35 });
     document.querySelectorAll('.phone').forEach(function (p) { po.observe(p); });
   } else document.querySelectorAll('.phone').forEach(function (p) { p.classList.add('go'); });
+
+  // Live tilt phone: the gauge drifts around 28 degrees inside the 25 to 35 target while the phone is on screen.
+  document.querySelectorAll('.phone').forEach(function (ph) {
+    var arc = ph.querySelector('.tarc'), num = ph.querySelector('.tnum'), shown = 28;
+    if (!arc || !num || reduce) return;
+    (function tick(ms) {
+      if (ph._on) {
+        var t = ms / 1000, d = 29.5 + 3.2 * Math.sin(t * 0.9) + 1.3 * Math.sin(t * 2.7), r = Math.round(d);
+        arc.setAttribute('stroke-dasharray', (d / 47.5 * 100).toFixed(1) + ' 100');
+        if (r !== shown) { shown = r; num.textContent = r + '\u00B0'; }
+      }
+      requestAnimationFrame(tick);
+    })(0);
+  });
 
   // Tiers: the highlight climbs from Beginner to Barista (passed tiers keep a faint edge), holds, then repeats.
   var ladder = document.getElementById('ladder');

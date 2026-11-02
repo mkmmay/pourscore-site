@@ -47,12 +47,12 @@ PH_POUR = phone('''<span class="mono">Heart &middot; phase 2 of 2</span><h3>Pull
 <div class="bar"><i style="width:68%"></i></div><div class="mono" style="margin-top:6px">68% of the pattern</div>''')
 
 PH_TILT = phone('''<span class="mono">Live tilt</span><h3>Hold steady</h3>
-<svg viewBox="0 0 200 120" style="width:100%;margin-top:12px"><path d="M20 110 A80 80 0 0 1 180 110" fill="none" stroke="#2a211c" stroke-width="14" stroke-linecap="round"/><path d="M20 110 A80 80 0 0 1 120 38" fill="none" stroke="#7FB069" stroke-width="14" stroke-linecap="round"/><text x="100" y="100" text-anchor="middle" font-family="Archivo" font-weight="600" font-size="40" fill="#F4ECE4">28&deg;</text></svg>
+<svg viewBox="0 0 200 120" style="width:100%;margin-top:12px"><path d="M20 110 A80 80 0 0 1 180 110" fill="none" stroke="#2a211c" stroke-width="14" stroke-linecap="round"/><path class="tarc" pathLength="100" d="M20 110 A80 80 0 0 1 180 110" fill="none" stroke="#7FB069" stroke-width="14" stroke-linecap="round" stroke-dasharray="59 100"/><text class="tnum" x="100" y="100" text-anchor="middle" font-family="Archivo" font-weight="600" font-size="40" fill="#F4ECE4">28&deg;</text></svg>
 <div class="row"><span><b>In range</b><i>Target 25 to 35&deg;</i></span><span class="tag g tag-r">Good</span></div>
 <div class="row"><span><b>Hold steady</b><i>Keep the phone still</i></span><span class="tag g tag-r">Good</span></div>''')
 
 PH_TRACE = phone('''<span class="mono">Dry rehearsal</span><h3>Mirror the trace</h3>
-<svg viewBox="0 0 200 250" style="width:100%;margin-top:10px"><path d="M100 0 C 140 20, 60 40, 140 60 S 60 100, 140 120 S 100 150, 100 170 L100 245" fill="none" stroke="#E4572E" stroke-width="5" stroke-linecap="round" stroke-dasharray="6 8" opacity=".6"/><path d="M100 0 C 140 20, 60 40, 140 60 S 60 100, 140 120" fill="none" stroke="#FFF6EC" stroke-width="5" stroke-linecap="round"/><circle cx="140" cy="120" r="8" fill="#E4572E"/></svg>
+<svg viewBox="0 0 200 250" style="width:100%;margin-top:10px"><path d="M100 0 C 140 20, 60 40, 140 60 S 60 100, 140 120 S 100 150, 100 170 L100 245" fill="none" stroke="#E4572E" stroke-width="5" stroke-linecap="round" stroke-dasharray="6 8" opacity=".6"/><path class="rtrace" pathLength="1" d="M100 0 C 140 20, 60 40, 140 60 S 60 100, 140 120 S 100 150, 100 170 L100 245" fill="none" stroke="#FFF6EC" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 2" stroke-dashoffset="-.0"/><circle class="rdot" cx="0" cy="0" r="8" fill="#E4572E"/></svg>
 <div class="btn-m">Nice. Try it for real?</div>''')
 
 PH_MILK = phone('<span class="mono">Milk</span><h3>Perfect your milk</h3>' + ''.join(
