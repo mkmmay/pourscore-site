@@ -217,7 +217,7 @@ def learn_page():
 <p>Typical starting points. Pour Score's Milk Math fits them to your own jug and cup.</p>
 {drinks_table(drinks)}
 <h2>Steam the milk first</h2>
-<p>Texture decides whether a pattern holds. Pour Score's milk chapters cover stretching, texture and swirling, with fixes for beige milk, big bubbles and thin foam.</p>
+<p>Texture decides whether a pattern holds. Pour Score's milk chapters cover aeration, incorporation, and how to judge your milk by height and sound.</p>
 <h2>Which latte art pattern to learn first</h2>
 <p>Pour Score teaches nine patterns across five tiers, from the <a href="{pat('dot')}">monk's head</a> to the <a href="{pat('swan')}">swan</a>, each tier unlocked as you log pours. See <a href="../{HUB}">all nine latte art patterns</a> and the tier each one belongs to.</p>
 <h2>Practise without wasting milk</h2>

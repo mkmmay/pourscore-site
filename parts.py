@@ -57,8 +57,8 @@ PH_TRACE = phone('''<span class="mono">Dry rehearsal</span><h3>Mirror the trace<
 
 PH_MILK = phone('<span class="mono">Milk</span><h3>Perfect your milk</h3>' + ''.join(
     f'<div class="row"><span class="tag{" g" if d else ""}">{n}</span><span><b>{s}</b><i>{x}</i></span></div>'
-    for n, s, x, d in [('1', 'Stretch', 'Add air until it feels warm', 1), ('2', 'Texture', 'Glossy, like wet paint', 1),
-                       ('3', 'Swirl', 'Keep it moving until you pour', 0), ('4', 'Fix it', 'Beige, bubbly or thin?', 0)]))
+    for n, s, x, d in [('1', 'Aeration', 'Add air until it feels warm', 1), ('2', 'Incorporation', 'Fold the foam through', 1),
+                       ('3', 'Height', 'Judge it by how far it rises', 0), ('4', 'Sound', 'Listen for the change', 0)]))
 
 _rnd = random.Random(7)
 _heat = ''.join(f'<i class="{_rnd.choice(["", "l1", "l2", "l3", "l3"])}" style="--i:{n}"></i>' for n in range(56))
@@ -69,10 +69,10 @@ PH_PROG = phone(f'''<span class="mono">Progress</span><h3>Confident</h3>
 <div class="row"><span><b>41 pours logged</b><i>Private by default</i></span></div>''')
 
 _CARDS = [
-    ('guided', 'Guided pours', 'A path draws across the cup in time with the pour, hands free.', '<path d="M4 18c4-10 12-10 16 0M12 4v6"/>'),
+    ('guided', 'Guided pours', 'A path draws across the cup in time with the pour, built for wet hands.', '<path d="M4 18c4-10 12-10 16 0M12 4v6"/>'),
     ('tilt', 'Live tilt', 'See your cup angle in degrees, green when you are in range.', '<path d="M4 18a8 8 0 0 1 16 0M12 18l4-6"/>'),
     ('rehearsal', 'Dry rehearsal', 'Practise the motion with an empty jug and a scrolling trace.', '<path d="M3 12c3-6 5 6 8 0s5 6 8 0"/>'),
-    ('milk', 'Perfect your milk', 'Stretching and texture, explained plainly with fixes for faults.', '<path d="M8 3h8l-1 5 2 4v9H7v-9l2-4z"/>'),
+    ('milk', 'Perfect your milk', 'Aeration and incorporation, with height and sound cues to judge your milk.', '<path d="M8 3h8l-1 5 2 4v9H7v-9l2-4z"/>'),
     ('progress', 'Progress and streaks', 'Log pours, keep your flame lit and unlock five tiers.', '<path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/>'),
     ('patterns', 'Pattern library', 'Nine patterns from a first heart to a swan.', '<circle cx="12" cy="12" r="9"/><path d="M12 7v10M7 12h10"/>'),
 ]
