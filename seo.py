@@ -45,7 +45,7 @@ def load():
             'tagline': get('tagline'), 'fix': get('fix'),
             'blurb': re.sub(r'\s*Unlocks once.*$', '', get('blurb')),  # that sentence is about scoring, which is not live
             'phases': [(m.group(1) or m.group(2), (m.group(3) or m.group(4)).replace("\\'", "'"))
-                       for m in re.finditer(r"label: " + _Q + r",\n\s+variable: '\w+',\n\s+cue: " + _Q, b)],
+                       for m in re.finditer(r"label: " + _Q + r",\n\s+variable: '\w+',\n(?:\s+w: \d+,\n)?\s+cue: " + _Q, b)],
         }
     groups = re.findall(r"label: '([^']+)',[^}]*?keys: \[([^\]]*)\]", t[t.index('PATTERN_GROUPS'):])
     order = [(LEVELS[lab.lower().replace(' ', '_').replace('é', 'e')], re.findall(r"'(\w+)'", ks)) for lab, ks in groups]
@@ -154,7 +154,7 @@ def patterns_page(pats, order):
         chapters = len(p['phases'])
         extra = heart_trace() if k == 'heart' else ''
         more = ('<a href="#how-to-pour-a-heart">How to pour it is below.</a>' if k == 'heart'
-                else f'Guided live in Pour Score: {chapters} chapters, with the path drawn on your cup.')
+                else f'Guided live in Pour Score: {chapters} chapter{"" if chapters == 1 else "s"}, with the path drawn on your cup.')
         details += (f'<section class="pdetail" id="{slug(k)}" aria-label="{name}"><div class="pd-text"><p class="tier">{ladder(p["tier"])}'
                     f'<span class="ml">Tier {n + 1} of 5 &middot; {p["tier"]}</span></p><h3>{name}</h3><p>{esc(p["blurb"])}</p>'
                     f'<p class="teach">{more}</p><a class="btn sm" href="../#start">Get early access</a></div>'
