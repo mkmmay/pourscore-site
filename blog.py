@@ -40,11 +40,13 @@ TIP_CTA = CTA.replace('../', '../../').replace(
 assert 'each week' in TIP_CTA
 
 
-def post_page(p):
+def post_page(p, posts=()):
     url = f'{HUB}{p["slug"]}/'
     words = len(p['body'].split())
     meta = f'<p class="ml">{nice(p["date"])} &middot; {max(1, round(words / 200))} min read</p>'
-    body = (f'{head("Pour Score &middot; Tips", esc(p["title"]), esc(p["description"]), p["art"], "../../")}\n{meta}\n{markdown.markdown(p["body"])}\n{TIP_CTA}')
+    more = [q for q in posts if q['slug'] != p['slug']][:3]  # newest three others: gives every post inbound links, not just the hub
+    more = ('<h2>Keep reading</h2>\n<ul>\n' + ''.join(f'<li><a href="../{q["slug"]}/">{esc(q["title"])}</a></li>\n' for q in more) + '</ul>\n') if more else ''
+    body = (f'{head("Pour Score &middot; Tips", esc(p["title"]), esc(p["description"]), p["art"], "../../")}\n{meta}\n{markdown.markdown(p["body"])}\n{more}{TIP_CTA}')
     ld = [{'@context': 'https://schema.org', '@type': 'Article', 'headline': p['title'], 'description': p['description'],
            'datePublished': p['date'], 'dateModified': p.get('updated', p['date']), 'inLanguage': 'en-GB', 'image': BASE + 'og.png',
            'mainEntityOfPage': BASE + url, 'author': {'@type': 'Organization', 'name': 'Pour Score', 'url': BASE},

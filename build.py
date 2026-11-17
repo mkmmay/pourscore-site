@@ -229,7 +229,7 @@ write(seo.FAQ, 'faq', '../', seo.faq_page(), 'learn')
 if POSTS:
     write(blog.HUB, 'tips', '../', blog.index_page(POSTS), 'learn')
     for _p in POSTS:
-        write(f'{blog.HUB}{_p["slug"]}/', f'tip-{_p["slug"]}', '../../', blog.post_page(_p), 'learn')
+        write(f'{blog.HUB}{_p["slug"]}/', f'tip-{_p["slug"]}', '../../', blog.post_page(_p, POSTS), 'learn')
 _s = support_cards('../')
 (HERE / 'support').mkdir(exist_ok=True)
 (HERE / 'support' / 'index.html').write_text(page(
@@ -253,8 +253,27 @@ legal('Pour_Score_Security_Page.md', 'Report a security issue', 'security')
 # robots.txt and sitemap.xml. /confirmed/ is the landing page for the sign-up email link, not content.
 today = datetime.date.today().isoformat()
 (HERE / 'robots.txt').write_text(f'User-agent: *\nAllow: /\nDisallow: /confirmed/\n\nSitemap: {BASE}sitemap.xml\n')
+
+
+def lastmod(p):
+    """Date the page's own file last changed: today if it differs from git, else its last commit date. A sitemap that stamps every
+    page with the build date teaches Google to ignore lastmod (17 Nov 2026), so only real changes move it."""
+    import subprocess
+    f = f'{p}index.html'
+    git = lambda *a: subprocess.run(['git', *a, '--', f], cwd=HERE, capture_output=True, text=True).stdout.strip()
+    return today if git('status', '--porcelain') or not git('log', '-1', '--format=%cs') else git('log', '-1', '--format=%cs')
+
+
 sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    + ''.join(f'<url><loc>{BASE}{p}</loc><lastmod>{today}</lastmod></url>\n' for p in PATHS.values()) + '</urlset>\n')
+    + ''.join(f'<url><loc>{BASE}{p}</loc><lastmod>{lastmod(p)}</lastmod></url>\n' for p in PATHS.values()) + '</urlset>\n')
+
+# llms.txt: the "Latest tips" section is rebuilt from posts/ so each post is named for assistants as it is published.
+_llms = HERE / 'llms.txt'
+_tips = ''.join(f'- [{p["title"]}]({BASE}{blog.HUB}{p["slug"]}/): {p["description"]}\n' for p in POSTS)
+_txt = re.sub(r'## Latest tips\n.*?(?=\n## )', '', _llms.read_text(), flags=re.S)
+if _tips:
+    _txt = _txt.replace('\n## Contact', f'\n## Latest tips\n\n{_tips}\n## Contact', 1)
+_llms.write_text(_txt)
 (HERE / 'sitemap.xml').write_text(sitemap)
 # Same list under a second name and as plain text: Search Console sometimes sticks on "could not be read" for one
 # address on a new property (10 Oct 2026). Submit whichever it accepts; robots.txt keeps pointing at sitemap.xml.
