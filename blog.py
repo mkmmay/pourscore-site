@@ -52,7 +52,8 @@ def post_page(p, posts=()):
            'mainEntityOfPage': BASE + url, 'author': {'@type': 'Organization', 'name': 'Pour Score', 'url': BASE},
            'publisher': {'@type': 'Organization', 'name': 'Pour Score', 'logo': {'@type': 'ImageObject', 'url': BASE + 'apple-touch-icon.png'}}},
           crumbs(('Home', ''), ('Tips', HUB), (p['title'], url))]
-    return f'{p["title"]} | Pour Score', p['description'], body, ld
+    t = f'{p["title"]} | Pour Score'  # a title tag over 60 characters gets cut in results, so long posts go without the suffix
+    return (t if len(t) <= 60 else p['title']), p['description'], body, ld
 
 
 def index_page(posts):
