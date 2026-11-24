@@ -14,7 +14,7 @@
 
 ## What it is not
 
-Pour Score is not a video course, a qualification or a live class, and it does not cover espresso extraction or running a café bar. It is a practice coach for milk and latte art at home.
+Pour Score is not a video course, a qualification or a live class, and it does not cover espresso extraction or running a café bar. It is a practice coach for milk and latte art at home. It is also not a coffee-review, drink-rating or beer app, and it has no link to other apps that share part of its name. The only official site is pourscoreapp.com.
 
 ## Who it is for
 
@@ -31,6 +31,7 @@ Adults (18+) with an espresso machine and a jug of milk, from new machine owners
 - [Features](https://pourscoreapp.com/features/): guided pours, live tilt, dry rehearsal, milk lessons, progress and streaks
 - [Privacy Policy](https://pourscoreapp.com/privacy/)
 - [Terms of Service](https://pourscoreapp.com/terms/)
+
 
 
 

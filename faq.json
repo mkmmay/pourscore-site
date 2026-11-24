@@ -43,5 +43,10 @@
   "q": "Which latte art pattern should a beginner learn first?",
   "a": "Start with the monk&#x27;s head, which is a heart without the tail. Everything else is built on a clean one. Then move to the heart. Pour Score teaches nine patterns in a set order, from the monk&#x27;s head to the swan, so each pattern prepares you for the next.",
   "link": "<a href=\"/latte-art-patterns/\">The nine latte art patterns in learning order</a>"
+ },
+ {
+  "q": "Is Pour Score the same as other apps with Pour Score in the name?",
+  "a": "No. Pour Score at pourscoreapp.com is a latte art coach app for home baristas. It is not a coffee-review, drink-rating or beer app, and it has no link to any app that shares part of its name.",
+  "link": "<a href=\"/\">What Pour Score is and how it works</a>"
  }
 ]
