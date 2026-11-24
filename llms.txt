@@ -9,6 +9,7 @@
 - Dry rehearsal: practise the hand movement with an empty jug, so no milk is wasted.
 - Perfect your milk: short lessons on aeration, incorporation, and how to judge your milk by height and sound.
 - Nine latte art patterns, in the order the app teaches them: monk's head, heart, tulip, rippled heart, rosetta, stacked tulip, swan, etched animals and stacked rosetta.
+- Photo scoring: take a photo of your pour and get a star score. The score is made by an AI service, so treat it as coaching, not a verdict: it can be wrong. The photo is sent for scoring only after you agree, and any pour can be logged without a score.
 - Pour log with a photo, a streak and five tiers: Beginner, Home Pourer, Confident, Café Ready and Barista. Tiers unlock as you log pours.
 - Coaching that fits your kit: set up your coffee station once and the guide fits your jug and cup.
 
